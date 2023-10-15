@@ -6,6 +6,13 @@
 #               and project-level preferences for language and content.
 # Dependencies: curl, jq, openssl
 
+# OS-agnostic home directory
+HOME_DIR=$(eval echo ~$USER)
+
+# Configuration and encryption file paths
+CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+ENCRYPT_FILE="$HOME_DIR/.anyhooksopenapi.enc"
+
 # Check for curl
 if ! command -v curl &> /dev/null; then
   echo "Error: curl is not installed. Reason: The script requires curl for making API calls."
@@ -28,33 +35,25 @@ if ! command -v openssl &> /dev/null; then
 fi
 
 # Source the variables
-if [ -f ~/.autocommitmsgrc ]; then
-    source ~/.autocommitmsgrc
+if [ -f $CONFIG_FILE ]; then
+    source $CONFIG_FILE
 else
-    echo "Error: Configuration file ~/.autocommitmsgrc not found."
+    echo "Error: Configuration file $CONFIG_FILE not found."
     echo "Reason: The script requires this file for sourcing variables."
-    echo "User Task: Make sure ~/.autocommitmsgrc exists and is accessible."
+    echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
     exit 9
 fi
 
 # Check for required files and variables
-if [ ! -f ~/.autocommitmsg.enc ]; then
-    echo "Error: Encrypted API key file ~/.autocommitmsg.enc not found."
-    echo "Reason: The script requires this file for API key decryption."
-    echo "User Task: Run the configure_api_key function from the auto-commit-msg script to generate this file."
-    exit 10
-fi
-
-# Check for required files and variables
-if [ ! -f ~/.autocommitmsg.enc ] || [ -z "$PASSPHRASE" ] || [ -z "$PREF_LANGUAGE" ] || [ -z "$PREF_SYSTEM_CONTENT" ] || [ -z "$PREF_USER_CONTENT" ]; then
-    echo "Error: Required variables not set in ~/.autocommitmsgrc."
+if [ ! -f $ENCRYPT_FILE ] || [ -z "$PASSPHRASE" ] || [ -z "$PREF_LANGUAGE" ] || [ -z "$PREF_SYSTEM_CONTENT" ] || [ -z "$PREF_USER_CONTENT" ]; then
+    echo "Error: Required variables not set in $CONFIG_FILE."
     echo "Reason: Missing PASSPHRASE, PREF_LANGUAGE, PREF_SYSTEM_CONTENT, or PREF_USER_CONTENT."
-    echo "User Task: Update ~/.autocommitmsgrc with the missing variables."
+    echo "User Task: Update $CONFIG_FILE with the missing variables."
     exit 11
 fi
 
 # Decrypt API Key
-API_KEY=$(echo $PASSPHRASE | openssl enc -aes-256-cbc -d -pbkdf2 -in ~/.autocommitmsg.enc -pass stdin)
+API_KEY=$(echo $PASSPHRASE | openssl enc -aes-256-cbc -d -pbkdf2 -in $ENCRYPT_FILE -pass stdin)
 
 # Prepare the JSON payload using jq
 JSON_DIFF_OUTPUT_PAYLOAD=$(jq -n \
