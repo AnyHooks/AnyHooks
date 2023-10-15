@@ -1,3 +1,28 @@
+# Error Handling
+
+### Enhanced Error Message Requirements
+
+Below are the enhanced requirements for error messages in this project.
+
+## General Requirements
+
+1. **Error Identification**
+    - Each error should be identifiable with a unique exit code greater than 0.
+
+2. **Message Clarity**
+    - Error messages should be clear and concise, providing enough information to understand the issue.
+
+## Specific Requirements for Error Messages
+
+1. **Reason for the Issue**
+    - Error messages should explain why the issue occurred.
+
+2. **Developer Guidance**
+    - When an unexpected error occurs, guide developers on how to contribute.
+
+3. **User Task**
+    - Provide the user with specific tasks to resolve the issue.
+
 ### Enhanced Error Message Requirements for the project
 
 Below are the enhanced requirements for error messages in this project.
