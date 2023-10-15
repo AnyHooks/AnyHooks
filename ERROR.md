@@ -23,6 +23,10 @@ Below are the enhanced requirements for error messages in this project.
 3. **User Task**
     - Provide the user with specific tasks to resolve the issue.
 
+### Enhanced Error Message Requirements for the project
+
+Below are the enhanced requirements for error messages in this project.
+
 #### General Requirements
 
 1. **Error Identification**
