@@ -6,6 +6,27 @@
 #               and project-level preferences for language and content.
 # Dependencies: curl, jq, openssl
 
+# Check for curl
+if ! command -v curl &> /dev/null; then
+  echo "Error: curl is not installed. Reason: The script requires curl for making API calls."
+  echo "Developer Fix: Install curl via Homebrew by running 'brew install curl'."
+  exit 1
+fi
+
+# Check for jq
+if ! command -v jq &> /dev/null; then
+  echo "Error: jq is not installed. Reason: The script requires jq for JSON parsing."
+  echo "Developer Fix: Install jq via Homebrew by running 'brew install jq'."
+  exit 2
+fi
+
+# Check for openssl
+if ! command -v openssl &> /dev/null; then
+  echo "Error: openssl is not installed. Reason: The script requires openssl for encryption and decryption."
+  echo "Developer Fix: Install openssl via Homebrew by running 'brew install openssl'."
+  exit 3
+fi
+
 # Source the variables
 if [ -f ~/.autocommitmsgrc ]; then
     source ~/.autocommitmsgrc
