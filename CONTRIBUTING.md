@@ -33,6 +33,10 @@ Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 2. Update the README.md with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations, and container parameters.
 3. Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent.
 
+## Error messages conduct 
+
+The enhanced requirements for error messages in this project [ERROR](ERROR.md).
+
 ## Code Style
 
 Please adhere to the coding style defined in the project. Consistency is key.
