@@ -1,0 +1,43 @@
+#!/bin/bash
+# Script: rc/anyhooks
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-15
+# Description: Manages hooks, encryption, and language settings for AnyHooks
+# Dependencies: rc/openaikey, rc/anyhookslang
+
+# Function to add hooks to the project
+add_hook() {
+  cp "$2/hooks/$1" "$2/.git/hooks/"
+  echo "Hook $1 added to project at $2."
+}
+
+# Function to encrypt API keys
+encrypt_key() {
+  . rc/openaikey $@
+}
+
+# Function to set language
+set_language() {
+  . rc/anyhookslang $@
+}
+
+# Main function to handle parameters
+main() {
+  case $1 in
+    "add")
+      add_hook $2 $3
+      ;;
+    "encrypt")
+      encrypt_key $2 $3 $4
+      ;;
+    "language")
+      set_language $2 $3
+      ;;
+    *)
+      echo "Invalid command."
+      ;;
+  esac
+}
+
+# Call main with all command line arguments
+main "$@"

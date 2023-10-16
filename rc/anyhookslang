@@ -1,0 +1,52 @@
+#!/bin/bash
+# Script: rc/anyhookslang
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-15
+# Description: Configures the preferred language for OpenAI API interactions
+# Dependencies: None
+
+# OS-agnostic home directory
+HOME_DIR=$(eval echo ~$USER)
+
+# Get the project directory using Git setup info
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+
+# Determine the target directory based on the flag
+TARGET_DIR=""
+case "$1" in
+    language)
+        case "$2" in
+            --global)
+                TARGET_DIR=$HOME_DIR
+                ;;
+            --local)
+                TARGET_DIR=$PROJECT_DIR
+                ;;
+            *)
+                echo "Error: Invalid flag. Use --global for user level or --local for project level."
+                exit 1
+                ;;
+        esac
+        ;;
+    *)
+        echo "Error: Invalid command. Use 'language' followed by --global or --local."
+        exit 1
+        ;;
+esac
+
+# Function to configure preferred language
+configure_preferred_language() {
+    echo "Please enter your preferred language to address questions against OpenAI API."
+    echo 'The default language is English or you can define any other language name' 
+    echo 'in English, for example Portuguese, Spanish, French, Dutch, etc.'
+    echo 'It will affect the response of the OpenAI API.'
+    read -s PREF_LANGUAGE
+
+    CONFIG_FILE="$TARGET_DIR/rc/.anyhooksrc"
+
+    if ! grep -q "PREF_LANGUAGE" $CONFIG_FILE; then
+        echo "PREF_LANGUAGE=$PREF_LANGUAGE" >> $CONFIG_FILE
+    fi
+}
+
+configure_preferred_language
