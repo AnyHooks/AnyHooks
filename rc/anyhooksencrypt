@@ -8,9 +8,6 @@
 # OS-agnostic home directory
 HOME_DIR=$(eval echo ~$USER)
 
-# Get the project directory using Git setup info
-PROJECT_DIR=$(git rev-parse --show-toplevel)
-
 # Determine the target directory based on the flag
 TARGET_DIR=""
 case "$1" in
@@ -20,11 +17,15 @@ case "$1" in
                 TARGET_DIR=$HOME_DIR
                 ;;
             --local)
+                # Get the project directory using Git setup info
+                PROJECT_DIR=$(cd $3 && git rev-parse --show-toplevel)
                 TARGET_DIR=$PROJECT_DIR
                 ;;
             *)
-                echo "Error: Invalid flag. Use --global for user level or --local for project level."
-                exit 1
+                echo "Warning: Flag not found. Use --global for user level or --local for project level."
+                # Get the project directory using Git setup info
+                PROJECT_DIR=$(cd $2 && git rev-parse --show-toplevel)
+                TARGET_DIR=$HOME_DIR #default dir
                 ;;
         esac
         ;;

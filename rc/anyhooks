@@ -5,34 +5,98 @@
 # Description: Manages hooks, encryption, and language settings for AnyHooks
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 
-SRC=""
+# OS-agnostic home directory
+HOME_DIR=$(eval echo ~$USER)
+
+# Function to create the configuration file if it doesn't exist
+create_config_file() {
+  # the default if not informed
+  CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+  if [ "$1" == "--global" ] || [ "$1" == "-g" ]; then
+    CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+  fi
+  if [ "$1" == "--local" ] || [ "$1" == "-l" ]; then
+    CONFIG_FILE="$3/.anyhooksrc"
+  fi
+  if [ ! -f "$CONFIG_FILE" ]; then
+    echo "#!/bin/bash" > "$CONFIG_FILE"
+    echo "# Resource: rc/.anyhooksrc" > "$CONFIG_FILE"
+    echo "# " > "$CONFIG_FILE"
+    echo "# The default language is English or you can define any other " > "$CONFIG_FILE"
+    echo "#   language name in English, for example Portuguese, " > "$CONFIG_FILE"
+    echo "#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.'" > "$CONFIG_FILE"
+    echo "# " > "$CONFIG_FILE"
+    echo "PREF_LANGUAGE=English" >> "$CONFIG_FILE"
+    echo "OPENAI_SYSTEM_CONTENT=\"You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language.\"" >> "$CONFIG_FILE"
+    echo "OPENAI_USER_CONTENT=\"Based on the following git diff output, identify and describe the changes to define the commit message.\"" >> "$CONFIG_FILE"
+  fi
+}
+
+# Function to check and encrypt API key file if it doesn't exist
+check_encrypt_key_file() {
+  ENCRYPTED_FILE="$HOME_DIR/.anyhooksopenapi.enc"
+  if [ ! -f "$ENCRYPTED_FILE" ]; then
+    encrypt_key
+    echo "Encrypted API key file created at $ENCRYPTED_FILE."
+  fi
+}
+
+# Function to deploy commit message
+deploy_commit_msg() {
+  check_encrypt_key_file
+  # deploying commit message goes here
+    SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+    cp "${SCRIPT_DIR}/commit-msg" "$3/.git/hooks/"
+    if [ $? -eq 0 ]; then
+      echo "Hook commit-msg successfully added to project at $3."
+    else
+      echo "Failed to add hook commit-msg to project at $3."
+      return 1
+    fi
+}
 
 # Function to add hooks to the project
 add_hook() {
-  cp "$2/hooks/$1" "$2/.git/hooks/"
-  echo "Hook $1 added to project at $2."
+  if [ "$1" == "-hook" ]; then
+    # Check for --msg or --message flag
+    for arg in "$@"; do
+      if [ "$arg" == "--msg" ] || [ "$arg" == "--message" ]; then
+        deploy_commit_msg $@
+        break
+      fi
+    done
+  else
+    echo "Invalid command."
+  fi
 }
 
 # Function to encrypt API keys
 encrypt_key() {
-  . "${SRC}anyhooksencrypt" $@
+  . "anyhooksencrypt" "config" $@
 }
 
 # Function to set language
 set_language() {
-  . "${SRC}anyhookslang" $@
+  . "anyhookslang" $@
 }
 
 # Function to show version
 show_version() {
-  . "${SRC}anyhooksver"
+  . "anyhooksver"
 }
 
 # Main function to handle parameters
 main() {
+  create_config_file  # Create the configuration file if it doesn't exist
+  
   case $1 in
     "add")
-      add_hook $2 $3
+      shift  # Remove "add" from the arguments
+      add_hook "$@"
+      ;;
+    "config")
+      shift  # Remove "config" from the arguments
+      create_config_file "$@"
       ;;
     "encrypt")
       encrypt_key $2 $3 $4
