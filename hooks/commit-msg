@@ -6,32 +6,60 @@
 #               and project-level preferences for language and content.
 # Dependencies: curl, jq, openssl
 
+# Get the project directory using Git setup info
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+
 # OS-agnostic home directory
 HOME_DIR=$(eval echo ~$USER)
 
 # Configuration and encryption file paths
-CONFIG_FILE="$HOME_DIR/.anyhooksrc"
-ENCRYPT_FILE="$HOME_DIR/.anyhooksopenapi.enc"
+CONFIG_FILE_PROJECT="$PROJECT_DIR/rc/.anyhooksrc"
+CONFIG_FILE_HOME="$HOME_DIR/.anyhooksrc"
+ENCRYPT_FILE_PROJECT="$PROJECT_DIR/rc/.anyhooksopenapi.enc"
+ENCRYPT_FILE_HOME="$HOME_DIR/.anyhooksopenapi.enc"
+
+# Check for configuration files, prioritize project directory
+if [ -f $CONFIG_FILE_PROJECT ]; then
+    source $CONFIG_FILE_PROJECT
+elif [ -f $CONFIG_FILE_HOME ]; then
+    source $CONFIG_FILE_HOME
+else
+    echo "Error: Configuration file not found."
+    echo "Reason: The script requires a configuration file either in the project directory or the home directory."
+    exit 1
+fi
+
+# Check for encrypted files, prioritize project directory
+ENCRYPT_FILE=""
+if [ -f $ENCRYPT_FILE_PROJECT ]; then
+    ENCRYPT_FILE=$ENCRYPT_FILE_PROJECT
+elif [ -f $ENCRYPT_FILE_HOME ]; then
+    ENCRYPT_FILE=$ENCRYPT_FILE_HOME
+else
+    echo "Error: Encrypted API key file not found."
+    echo "Reason: The script requires an encrypted API key file either in the project directory or the home directory."
+    exit 2
+fi
 
 # Check for curl
 if ! command -v curl &> /dev/null; then
   echo "Error: curl is not installed. Reason: The script requires curl for making API calls."
   echo "Developer Fix: Install curl via Homebrew by running 'brew install curl'."
-  exit 1
+  exit 3
 fi
 
 # Check for jq
 if ! command -v jq &> /dev/null; then
   echo "Error: jq is not installed. Reason: The script requires jq for JSON parsing."
   echo "Developer Fix: Install jq via Homebrew by running 'brew install jq'."
-  exit 2
+  exit 4
 fi
 
 # Check for openssl
 if ! command -v openssl &> /dev/null; then
   echo "Error: openssl is not installed. Reason: The script requires openssl for encryption and decryption."
   echo "Developer Fix: Install openssl via Homebrew by running 'brew install openssl'."
-  exit 3
+  exit 5
 fi
 
 # Source the variables
@@ -41,7 +69,7 @@ else
     echo "Error: Configuration file $CONFIG_FILE not found."
     echo "Reason: The script requires this file for sourcing variables."
     echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
-    exit 4
+    exit 6
 fi
 
 # Check for required files and variables
@@ -49,7 +77,7 @@ if [ ! -f $ENCRYPT_FILE ] || [ -z "$PASSPHRASE" ] || [ -z "$PREF_LANGUAGE" ] || 
     echo "Error: Required variables not set in $CONFIG_FILE."
     echo "Reason: Missing PASSPHRASE, PREF_LANGUAGE, OPENAI_SYSTEM_CONTENT, or OPENAI_USER_CONTENT."
     echo "User Task: Update $CONFIG_FILE with the missing variables."
-    exit 5
+    exit 7
 fi
 
 # Decrypt API Key
@@ -75,7 +103,7 @@ if [ $? -ne 0 ]; then
     echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
     echo "Support: If you have a support contract, please contact support with error code 8."
     echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
-    exit 6
+    exit 8
 fi
 
 # Extract the commit message from the API response
@@ -88,7 +116,7 @@ if [ $? -ne 0 ]; then
     echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
     echo "Support: If you have a support contract, please contact support with error code 9."
     echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
-    exit 7
+    exit 9
 fi
 
 # Update the commit message
