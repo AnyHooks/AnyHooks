@@ -5,14 +5,19 @@
 # Description: Manages hooks, encryption, and language settings for AnyHooks
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 
-SRC=""
-
 # OS-agnostic home directory
 HOME_DIR=$(eval echo ~$USER)
 
 # Function to create the configuration file if it doesn't exist
 create_config_file() {
+  # the default if not informed
   CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+  if [ "$1" == "--global" ] || [ "$1" == "-g" ]; then
+    CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+  fi
+  if [ "$1" == "--local" ] || [ "$1" == "-l" ]; then
+    CONFIG_FILE="$3/.anyhooksrc"
+  fi
   if [ ! -f "$CONFIG_FILE" ]; then
     echo "#!/bin/bash" > "$CONFIG_FILE"
     echo "# Resource: rc/.anyhooksrc" > "$CONFIG_FILE"
@@ -61,17 +66,17 @@ add_hook() {
 
 # Function to encrypt API keys
 encrypt_key() {
-  . "${SRC}anyhooksencrypt" $@
+  . "anyhooksencrypt" $@
 }
 
 # Function to set language
 set_language() {
-  . "${SRC}anyhookslang" $@
+  . "anyhookslang" $@
 }
 
 # Function to show version
 show_version() {
-  . "${SRC}anyhooksver"
+  . "anyhooksver"
 }
 
 # Main function to handle parameters
@@ -84,6 +89,7 @@ main() {
       add_hook "$@"
       ;;
     "config")
+      shift  # Remove "config" from the arguments
       create_config_file "$@"
       ;;
     "encrypt")
