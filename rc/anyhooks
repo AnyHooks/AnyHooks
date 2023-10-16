@@ -7,12 +7,11 @@
 
 SRC=""
 
+# OS-agnostic home directory
+HOME_DIR=$(eval echo ~$USER)
+
 # Function to create the configuration file if it doesn't exist
 create_config_file() {
-
-  # OS-agnostic home directory
-  HOME_DIR=$(eval echo ~$USER)
-
   CONFIG_FILE="$HOME_DIR/.anyhooksrc"
   if [ ! -f "$CONFIG_FILE" ]; then
     echo "#!/bin/bash" > "$CONFIG_FILE"
@@ -28,10 +27,36 @@ create_config_file() {
   fi
 }
 
+# Function to check and encrypt API key file if it doesn't exist
+check_encrypt_key_file() {
+  ENCRYPTED_FILE="$HOME_DIR/.anyhooksopenapi.enc"
+  if [ ! -f "$ENCRYPTED_FILE" ]; then
+    encrypt_key
+    echo "Encrypted API key file created at $ENCRYPTED_FILE."
+  fi
+}
+
+# Function to deploy commit message
+deploy_commit_msg() {
+  check_encrypt_key_file
+  # deploying commit message goes here
+    cp "commit-msg" "$3/.git/hooks/"
+    echo "Hook commit-msg added to project at $3."
+}
+
 # Function to add hooks to the project
 add_hook() {
-  cp "$2/hooks/$1" "$2/.git/hooks/"
-  echo "Hook $1 added to project at $2."
+  if [ "$1" == "-hook" ]; then
+    # Check for --msg or --message flag
+    for arg in "$@"; do
+      if [ "$arg" == "--msg" ] || [ "$arg" == "--message" ]; then
+        deploy_commit_msg
+        break
+      fi
+    done
+  else
+    echo "Invalid command."
+  fi
 }
 
 # Function to encrypt API keys
@@ -55,7 +80,8 @@ main() {
   
   case $1 in
     "add")
-      add_hook $2 $3
+      shift  # Remove "add" from the arguments
+      add_hook "$@"
       ;;
     "config")
       create_config_file "$@"
