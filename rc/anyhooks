@@ -34,10 +34,8 @@ create_config_file() {
 
 # Function to check and encrypt API key file if it doesn't exist
 check_encrypt_key_file() {
-  echo "Passou pelo check_encrypt_key_file()"
   ENCRYPTED_FILE="$HOME_DIR/.anyhooksopenapi.enc"
   if [ ! -f "$ENCRYPTED_FILE" ]; then
-      echo "Passou pelo if -f $ENCRYPTED_FILE"
     encrypt_key
     echo "Encrypted API key file created at $ENCRYPTED_FILE."
   fi
@@ -47,11 +45,7 @@ check_encrypt_key_file() {
 deploy_commit_msg() {
   check_encrypt_key_file
   # deploying commit message goes here
-
     SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-    echo "This script is located in: $SCRIPT_DIR"
-
-      echo "Copying from ${SCRIPT_DIR}/commit-msg to $3/.git/hooks/ from $@"
     cp "${SCRIPT_DIR}/commit-msg" "$3/.git/hooks/"
     if [ $? -eq 0 ]; then
       echo "Hook commit-msg successfully added to project at $3."
@@ -63,15 +57,10 @@ deploy_commit_msg() {
 
 # Function to add hooks to the project
 add_hook() {
-      echo "Passou pelo add_hook() com parametros $1, $2, $3 "
   if [ "$1" == "-hook" ]; then
-
-      echo "Passou pelo if -hook"
     # Check for --msg or --message flag
     for arg in "$@"; do
       if [ "$arg" == "--msg" ] || [ "$arg" == "--message" ]; then
-
-      echo "Passou pelo if --msg --message"
         deploy_commit_msg $@
         break
       fi
@@ -83,9 +72,7 @@ add_hook() {
 
 # Function to encrypt API keys
 encrypt_key() {
-      echo "Chamando script anyhooksencrypt"
   . "anyhooksencrypt" "config" $@
-      echo "Passoun pelo encrypt_key() apos script anyhooksencrypt"
 }
 
 # Function to set language
@@ -104,7 +91,6 @@ main() {
   
   case $1 in
     "add")
-      echo "Passou pelo add)"
       shift  # Remove "add" from the arguments
       add_hook "$@"
       ;;
