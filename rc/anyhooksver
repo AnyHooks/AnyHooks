@@ -1,0 +1,14 @@
+#!/bin/bash
+# Script: rc/anyhooksver
+# Author: Ricardo Malnati
+# Description: Versioning controller for AnyHooks
+
+# Function to display version
+show_version() {
+  # Get the latest commit hash of the current branch
+  LATEST_COMMIT=$(git rev-parse HEAD)
+  echo "AnyHooks Version: $LATEST_COMMIT"
+}
+
+# Call the function
+show_version
