@@ -5,6 +5,8 @@
 # Description: Manages hooks, encryption, and language settings for AnyHooks
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 
+SRC="./"
+
 # Function to add hooks to the project
 add_hook() {
   cp "$2/hooks/$1" "$2/.git/hooks/"
@@ -13,17 +15,17 @@ add_hook() {
 
 # Function to encrypt API keys
 encrypt_key() {
-  . rc/openaikey $@
+  . "${SRC}anyhooksencrypt" $@
 }
 
 # Function to set language
 set_language() {
-  . rc/anyhookslang $@
+  . "${SRC}anyhookslang" $@
 }
 
 # Function to show version
 show_version() {
-  . rc/anyhooksver
+  . "${SRC}anyhooksver"
 }
 
 # Main function to handle parameters
