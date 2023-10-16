@@ -9,7 +9,11 @@ SRC=""
 
 # Function to create the configuration file if it doesn't exist
 create_config_file() {
-  CONFIG_FILE="$HOME/.anyhooksrc"
+
+  # OS-agnostic home directory
+  HOME_DIR=$(eval echo ~$USER)
+
+  CONFIG_FILE="$HOME_DIR/.anyhooksrc"
   if [ ! -f "$CONFIG_FILE" ]; then
     echo "#!/bin/bash" > "$CONFIG_FILE"
     echo "# Resource: rc/.anyhooksrc" > "$CONFIG_FILE"
@@ -52,6 +56,9 @@ main() {
   case $1 in
     "add")
       add_hook $2 $3
+      ;;
+    "config")
+      create_config_file "$@"
       ;;
     "encrypt")
       encrypt_key $2 $3 $4
