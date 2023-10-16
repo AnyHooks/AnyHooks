@@ -7,6 +7,23 @@
 
 SRC=""
 
+# Function to create the configuration file if it doesn't exist
+create_config_file() {
+  CONFIG_FILE="$HOME/.anyhooksrc"
+  if [ ! -f "$CONFIG_FILE" ]; then
+    echo "#!/bin/bash" > "$CONFIG_FILE"
+    echo "# Resource: rc/.anyhooksrc" > "$CONFIG_FILE"
+    echo "# " > "$CONFIG_FILE"
+    echo "# The default language is English or you can define any other " > "$CONFIG_FILE"
+    echo "#   language name in English, for example Portuguese, " > "$CONFIG_FILE"
+    echo "#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.'" > "$CONFIG_FILE"
+    echo "# " > "$CONFIG_FILE"
+    echo "PREF_LANGUAGE=English" >> "$CONFIG_FILE"
+    echo "OPENAI_SYSTEM_CONTENT=\"You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language.\"" >> "$CONFIG_FILE"
+    echo "OPENAI_USER_CONTENT=\"Based on the following git diff output, identify and describe the changes to define the commit message.\"" >> "$CONFIG_FILE"
+  fi
+}
+
 # Function to add hooks to the project
 add_hook() {
   cp "$2/hooks/$1" "$2/.git/hooks/"
@@ -30,6 +47,8 @@ show_version() {
 
 # Main function to handle parameters
 main() {
+  create_config_file  # Create the configuration file if it doesn't exist
+  
   case $1 in
     "add")
       add_hook $2 $3
