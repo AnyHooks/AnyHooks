@@ -1,0 +1,66 @@
+#!/bin/bash
+# Script: rc/openaikey
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-15
+# Description: Generates .anyhooksopenai.enc file for storing OpenAI API Key
+# Dependencies: curl, openssl
+
+# OS-agnostic home directory
+HOME_DIR=$(eval echo ~$USER)
+
+# Get the project directory using Git setup info
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+
+# Determine the target directory based on the flag
+TARGET_DIR=""
+case "$1" in
+    config)
+        case "$2" in
+            --global)
+                TARGET_DIR=$HOME_DIR
+                ;;
+            --local)
+                TARGET_DIR=$PROJECT_DIR
+                ;;
+            *)
+                echo "Error: Invalid flag. Use --global for user level or --local for project level."
+                exit 1
+                ;;
+        esac
+        ;;
+    *)
+        echo "Error: Invalid command. Use 'config' followed by --global or --local."
+        exit 1
+        ;;
+esac
+
+# Function to configure OpenAI API Key
+configure_openai_api_key() {
+    echo "Please enter your OpenAI API key:"
+    read -s API_KEY
+
+    retry_count=0
+    max_retries=3
+
+    while [ $retry_count -lt $max_retries ]; do
+        API_TEST=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $API_KEY" "https://api.openai.com/v1/engines")
+        if [ "$API_TEST" -eq 200 ]; then
+            break
+        else
+            echo "Invalid API Key. You have $((max_retries - retry_count)) attempts left."
+            read -s -p "Please re-enter your OpenAI API key: " API_KEY
+            ((retry_count++))
+        fi
+    done
+
+    if [ $retry_count -eq $max_retries ]; then
+        echo "Error: Max retries reached for API Key validation."
+        exit 1
+    fi
+
+    PASSPHRASE=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
+
+    echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out "$TARGET_DIR/.anyhooksopenai.enc" -pass pass:$PASSPHRASE
+}
+
+configure_openai_api_key
