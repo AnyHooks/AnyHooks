@@ -65,7 +65,18 @@ This guide aims to provide a comprehensive walkthrough for developing a Homebrew
     ```bash
     cd /opt/homebrew/Library/Taps/malnati/homebrew-anyhooks
     ```
-    Edit the formula, commit the changes locally, and then push to the remote repository.
+    - Edit the formula using `vi` or `nano`:
+    ```bash
+    vi anyhooks.rb
+    # or
+    nano anyhooks.rb
+    ```
+    - Commit the changes locally and then push to the remote repository:
+    ```bash
+    git add anyhooks.rb
+    git commit -m "Fix issues in formula"
+    git push origin master
+    ```
 
 8. **Update Without Reinstall**: 
     ```bash
