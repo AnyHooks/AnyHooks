@@ -13,9 +13,9 @@ PROJECT_DIR=$(git rev-parse --show-toplevel)
 HOME_DIR=$(eval echo ~$USER)
 
 # Configuration and encryption file paths
-CONFIG_FILE_PROJECT="$PROJECT_DIR/rc/.anyhooksrc"
+CONFIG_FILE_PROJECT="$PROJECT_DIR/.anyhooksrc"
 CONFIG_FILE_HOME="$HOME_DIR/.anyhooksrc"
-ENCRYPT_FILE_PROJECT="$PROJECT_DIR/rc/.anyhooksopenapi.enc"
+ENCRYPT_FILE_PROJECT="$PROJECT_DIR/.anyhooksopenapi.enc"
 ENCRYPT_FILE_HOME="$HOME_DIR/.anyhooksopenapi.enc"
 
 # Check for configuration files, prioritize project directory

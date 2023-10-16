@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script: rc/openaikey
+# Script: rc/anyhooksencrypt
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Generates .anyhooksopenai.enc file for storing OpenAI API Key

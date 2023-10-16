@@ -42,7 +42,7 @@ configure_preferred_language() {
     echo 'It will affect the response of the OpenAI API.'
     read -s PREF_LANGUAGE
 
-    CONFIG_FILE="$TARGET_DIR/rc/.anyhooksrc"
+    CONFIG_FILE="$TARGET_DIR/.anyhooksrc"
 
     if ! grep -q "PREF_LANGUAGE" $CONFIG_FILE; then
         echo "PREF_LANGUAGE=$PREF_LANGUAGE" >> $CONFIG_FILE

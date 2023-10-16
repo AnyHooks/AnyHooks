@@ -3,7 +3,9 @@
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/openaikey, rc/anyhookslang
+# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
+
+SRC=""
 
 # Function to add hooks to the project
 add_hook() {
@@ -13,12 +15,17 @@ add_hook() {
 
 # Function to encrypt API keys
 encrypt_key() {
-  . rc/openaikey $@
+  . "${SRC}anyhooksencrypt" $@
 }
 
 # Function to set language
 set_language() {
-  . rc/anyhookslang $@
+  . "${SRC}anyhookslang" $@
+}
+
+# Function to show version
+show_version() {
+  . "${SRC}anyhooksver"
 }
 
 # Main function to handle parameters
@@ -32,6 +39,9 @@ main() {
       ;;
     "language")
       set_language $2 $3
+      ;;
+    "--version")
+      show_version
       ;;
     *)
       echo "Invalid command."
