@@ -155,7 +155,7 @@ fi
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of debug messages. Ensure that debug messages assist in troubleshooting and are optional. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are debug messages optional and controlled by a flag or environment variable?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are debug messages optional and controlled by a flag or environment variable?:
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of debug messages. Ensure that debug messages assist in troubleshooting and are optional. Provide a revised version of the code that aligns with these guidelines."
@@ -202,7 +202,7 @@ fi
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of error messages. Ensure that error messages are clear, actionable, and maintain a positive tone. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the error messages follow the guidelines: Is the message clear and free from jargon or complex terms? Does the message have a logical flow? Does the message provide actionable steps or suggestions? Is the tone of the message positive and nonjudgmental? Does the message avoid blaming the user? Is humor or sarcasm absent from the message?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the error messages follow the guidelines: Is the message clear and free from jargon or complex terms? Does the message have a logical flow? Does the message provide actionable steps or suggestions? Is the tone of the message positive and nonjudgmental? Does the message avoid blaming the user? Is humor or sarcasm absent from the message?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of error messages. Ensure that error messages are clear, actionable, and maintain a positive tone. Provide a revised version of the code that aligns with these guidelines."
@@ -252,7 +252,7 @@ Certainly, Ricardo. Below are the details you requested:
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
@@ -301,7 +301,7 @@ echo "Error $FILE_NOT_FOUND: File not found."
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines."
@@ -348,7 +348,7 @@ Certainly, Ricardo. Below are the details you requested:
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?:
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines."
@@ -404,7 +404,7 @@ A header is mandatory for every script as it provides essential metadata about t
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: [Insert Bash Script Code Here] 
+> Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines."
@@ -445,7 +445,7 @@ HOME_DIR=$(eval echo ~$USER)
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?: [Insert Bash Script Code Here]
+> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines."
@@ -489,7 +489,7 @@ Certainly, Ricardo. Here are the details you requested:
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]
+> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines."
@@ -532,7 +532,7 @@ Certainly, Ricardo. Below are the details you requested:
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]
+> Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines."
