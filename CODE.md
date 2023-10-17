@@ -450,13 +450,13 @@ HOME_DIR=$(eval echo ~$USER)
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?: 
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?
+[Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a full-file revised version of the code that aligns with these guidelines."
 
---arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices Is the script built-in Bash commands only?: [Insert Bash Script Code Here]"
+--arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only? [Insert Bash Script Code Here]"
 ```
 
 ### Reference
