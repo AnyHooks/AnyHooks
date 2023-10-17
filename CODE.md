@@ -244,19 +244,26 @@ fi
 
 ### Developer's Checklist for Confirmations
 
-- Todas as operações estão seguidas de verificações de confirmação?
-- As verificações de confirmação incluem tratamento de erros, como mensagens de erro ou números de erro?
-- As verificações de confirmação validam o efeito pretendido da operação?
-- As verificações de confirmação estão bem documentadas para indicar seu propósito?
+- Are all operations followed by confirmation checks?
+- Do the confirmation checks include error handling, such as error messages or error numbers?
+- Do the confirmation checks validate the intended effect of the operation?
+- Are the confirmation checks well-documented to indicate their purpose?
+
+### Reference
+
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ### Automated Verification with AI
 
-> Você tem a tarefa de revisar um código Bash Script para garantir que ele adere às diretrizes de conduta de codificação especificadas. Especificamente, concentre-se em verificações de confirmação após cada operação, não apenas operações críticas. Certifique-se de que todas as operações estão seguidas de verificações de confirmação e que essas verificações validam o sucesso da operação. Forneça uma versão revisada do código que esteja alinhada com essas diretrizes.
-> Por favor, analise o código para verificar se ele segue as diretrizes: Todas as operações estão seguidas de verificações de confirmação? As verificações de confirmação incluem tratamento de erros? As verificações de confirmação validam o efeito pretendido da operação?:
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation. Provide a revised version of the code that aligns with these guidelines."
+> Please analyze the code to check if it follows the guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation?:
 
---arg sys_content "Você tem a tarefa de revisar um código Bash Script para garantir que ele adere às diretrizes de conduta de codificação especificadas. Especificamente, concentre-se em verificações de confirmação após cada operação, não apenas operações críticas. Certifique-se de que todas as operações estão seguidas de verificações de confirmação e que essas verificações validam o sucesso da operação. Forneça uma versão revisada do código que esteja alinhada com essas diretrizes."
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation. Provide a revised version of the code that aligns with these guidelines."
 
---arg user_content "Por favor, analise o código para verificar se ele segue as diretrizes: Todas as operações estão seguidas de verificações de confirmação? As verificações de confirmação incluem tratamento de erros? As verificações de confirmação validam o efeito pretendido da operação?: [Insira o código Bash Script aqui]"
+--arg user_content "Please analyze the code to check if it follows the guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation?: [Insert Bash Script Code Here]"
+```
 
 ### References
 
