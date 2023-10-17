@@ -219,45 +219,49 @@ fi
 
 ### Reason
 
-Confirmation messages provide feedback to the user, indicating that an operation has been successfully completed.
+Confirmation checks are essential for validating that previous operations in the code have executed successfully and without errors. These checks enhance the robustness and reliability of the script.
 
 ### Guide
 
-1. **Explicitness**: Make the confirmation message clear and to the point.
-2. **Timing**: Display the confirmation message immediately after the successful completion of an operation.
+1. **Explicit Checks**: Implement explicit checks after each critical operation to confirm its successful execution.
+2. **Error Handling**: Include checks for error messages or error numbers to ensure the operation did not fail.
+3. **Validation**: Confirm the intended effect of the operation, such as verifying that a file has been deleted.
 
 ### Example
 
 ```bash
-# Successful API call
-if [ "$api_status" == "200" ]; then
-  echo "API call successful."
+# Delete a file and confirm its deletion
+rm -f /path/to/file
+if [ $? -eq 0 ] && [ ! -f /path/to/file ]; then
+  echo "File successfully deleted."
+else
+  echo "File deletion failed."
 fi
 ```
 
 ### Situations for Use
 
-- After successful file operations (e.g., file creation, deletion).
-- Upon successful API calls.
-- After successful user authentication.
+- After file operations like creation, deletion, or modification to confirm their successful execution.
+- Following API calls to validate both the call and the expected outcome.
+- After setting environment variables or changing system settings to confirm they have been applied.
 
-Certainly, Ricardo. Below are the details you requested:
+Entendido, Ricardo. Aqui estão as versões revisadas:
 
-### Developer's Checklist for Crafting Confirmation Messages
+### Developer's Checklist for Confirmations
 
-- Is the confirmation message explicit and clear?
-- Is the message displayed at the right time?
+- Todas as operações estão seguidas de verificações de confirmação?
+- As verificações de confirmação incluem tratamento de erros, como mensagens de erro ou números de erro?
+- As verificações de confirmação validam o efeito pretendido da operação?
+- As verificações de confirmação estão bem documentadas para indicar seu propósito?
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: 
+> Você tem a tarefa de revisar um código Bash Script para garantir que ele adere às diretrizes de conduta de codificação especificadas. Especificamente, concentre-se em verificações de confirmação após cada operação, não apenas operações críticas. Certifique-se de que todas as operações estão seguidas de verificações de confirmação e que essas verificações validam o sucesso da operação. Forneça uma versão revisada do código que esteja alinhada com essas diretrizes.
+> Por favor, analise o código para verificar se ele segue as diretrizes: Todas as operações estão seguidas de verificações de confirmação? As verificações de confirmação incluem tratamento de erros? As verificações de confirmação validam o efeito pretendido da operação?:
 
-```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "Você tem a tarefa de revisar um código Bash Script para garantir que ele adere às diretrizes de conduta de codificação especificadas. Especificamente, concentre-se em verificações de confirmação após cada operação, não apenas operações críticas. Certifique-se de que todas as operações estão seguidas de verificações de confirmação e que essas verificações validam o sucesso da operação. Forneça uma versão revisada do código que esteja alinhada com essas diretrizes."
 
---arg user_content "Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]"
-```
+--arg user_content "Por favor, analise o código para verificar se ele segue as diretrizes: Todas as operações estão seguidas de verificações de confirmação? As verificações de confirmação incluem tratamento de erros? As verificações de confirmação validam o efeito pretendido da operação?: [Insira o código Bash Script aqui]"
 
 ### References
 
