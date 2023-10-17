@@ -3,18 +3,17 @@
 ## Table of Contents
 
 1. [Variables](#variables)
-2. [Parameters](#parameters)
-3. [Debug Messages](#debug-messages)
-4. [Error Messages](#error-messages)
-5. [Confirmations](#confirmations)
-6. [Verifications](#verifications)
-7. [Error Numbering](#error-numbering)
-9. [Syntax](#syntax)
-10. [Header](#header)
-11. [Agnosticism](#agnosticism)
-12. [Preferences](#preferences)
-13. [Dynalic matching](#dynalic-maching)
-14. [Repeated Asking](#repeated-asking)
+1. [Parameters](#parameters)
+1. [Debug Messages](#debug-messages)
+1. [Error Messages](#error-messages)
+1. [Confirmations](#confirmations)
+1. [Error Numbering](#error-numbering)
+1. [Syntax](#syntax)
+1. [Header](#header)
+1. [Agnosticism](#agnosticism)
+1. [Preferences](#preferences)
+1. [Dynalic matching](#dynalic-maching)
+1. [Repeated Asking](#repeated-asking)
 
 ---
 
@@ -293,17 +292,20 @@ API_CALL_FAILED=201
 echo "Error $FILE_NOT_FOUND: File not found."
 ```
 
-### Developer's Checklist for Crafting Confirmation Messages
+### Developer's Checklist for Crafting Error Numbering
 
-- Is the confirmation message explicit and clear?
-- Is the message displayed at the right time?
+- Is each error number unique?
+- Is each error number documented along with its message and possible resolution?
+- Is a consistent numbering scheme used?
 
 ### Automated Verification with AI
 
-```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
+For automated verification with AI, you can use the following `--arg sys_content` and `--arg user_content` parameters:
 
---arg user_content "Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]"
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: [Insert Bash Script Code Here]"
 ```
 
 ### References
