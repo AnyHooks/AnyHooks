@@ -270,19 +270,49 @@ echo "Error $FILE_NOT_FOUND: File not found."
 - [Microsoft's Guidelines for Error Handling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design#error-return-codes)
 
 ---
+Certainly, Ricardo. Below is the revised section for "Syntax" with the additional details you requested:
+
+---
+
 ## Syntax
 
 ### Reason
-- Following Bash syntax rules ensures code compatibility and readability.
+
+Following a consistent syntax is crucial for code readability, maintainability, and collaboration. It ensures that the code adheres to best practices and is easy to understand for anyone who reads it.
+
+### Guide
+
+1. **Consistency**: Always use the same coding style and conventions throughout the script.
+2. **Comments**: Use comments to explain complex or non-intuitive code blocks.
+3. **Indentation**: Use consistent indentation to improve code readability.
+
+### Checklist for Developers
+
+- [ ] Is the code consistently styled?
+- [ ] Are comments used to explain complex or non-intuitive parts?
+- [ ] Is the indentation consistent?
+
+### AI-Based Code Verification
+
+To verify if your syntax adheres to these guidelines, you can use the following text to ask the AI:
+
+> "Please analyze the code to check if the syntax follows the guidelines. Look for consistency, appropriate use of comments, and indentation."
 
 ### Example
+
 ```bash
-#!/bin/bash
-# This is a comment
-echo "Hello, world!"
+# Bash example for consistent syntax
+if [ "$var" == "true" ]; then
+  echo "Condition met."
+else
+  echo "Condition not met."
+fi
 ```
 
-### Reference
+### References
+
+- [Google's Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [Bash Best Practices by MIT](http://www.bash.academy/)
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Syntax)
 
 ## Header
