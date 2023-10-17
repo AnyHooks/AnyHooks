@@ -254,6 +254,9 @@ Certainly, Ricardo. Below are the details you requested:
 
 ### Automated Verification with AI
 
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]
+
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
 
@@ -300,7 +303,8 @@ echo "Error $FILE_NOT_FOUND: File not found."
 
 ### Automated Verification with AI
 
-For automated verification with AI, you can use the following `--arg sys_content` and `--arg user_content` parameters:
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: [Insert Bash Script Code Here]
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines."
@@ -326,18 +330,6 @@ Following a consistent syntax is crucial for code readability, maintainability, 
 2. **Comments**: Use comments to explain complex or non-intuitive code blocks.
 3. **Indentation**: Use consistent indentation to improve code readability.
 
-### Checklist for Developers
-
-- [ ] Is the code consistently styled?
-- [ ] Are comments used to explain complex or non-intuitive parts?
-- [ ] Is the indentation consistent?
-
-### AI-Based Code Verification
-
-To verify if your syntax adheres to these guidelines, you can use the following text to ask the AI:
-
-> "Please analyze the code to check if the syntax follows the guidelines. Look for consistency, appropriate use of comments, and indentation."
-
 ### Example
 
 ```bash
@@ -347,6 +339,24 @@ if [ "$var" == "true" ]; then
 else
   echo "Condition not met."
 fi
+```
+Certainly, Ricardo. Below are the details you requested:
+
+### Developer's Checklist for Syntax
+
+- Is the coding style and conventions consistent throughout the script?
+- Are comments used to explain complex or non-intuitive code blocks?
+- Is consistent indentation applied for better code readability?
+
+### Automated Verification with AI
+
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?: [Insert Bash Script Code Here]
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?: [Insert Bash Script Code Here]"
 ```
 
 ### References
