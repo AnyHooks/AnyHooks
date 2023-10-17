@@ -382,18 +382,6 @@ A header is mandatory for every script as it provides essential metadata about t
 5. **Dependencies**: List any dependencies that the script relies on.
 6. **Limitations**: Clearly state any limitations, such as OS compatibility.
 
-### Checklist for Developers
-
-- [ ] Is the header present at the top of the script?
-- [ ] Does it include all the mandatory fields?
-- [ ] Are the limitations clearly stated?
-
-### AI-Based Code Verification
-
-To verify if your script's header adheres to these guidelines, you can use the following text to ask the AI:
-
-> "Please analyze the header of the code to ensure it contains all the mandatory fields like Script Name, Author, Creation Date, Description, Dependencies, and Limitations."
-
 ### Example
 
 ```bash
@@ -404,6 +392,27 @@ To verify if your script's header adheres to these guidelines, you can use the f
 # Description: Manages hooks, encryption, and language settings for AnyHooks
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 # Limitations:  Linux, macOS
+```
+
+### Developer's Checklist for Header
+
+- Is the header present at the top of the script?
+- Does the header include the script name?
+- Is the author's name specified?
+- Is the creation date mentioned?
+- Does the header provide a brief description of the script's purpose?
+- Are any dependencies listed?
+- Are limitations, such as OS compatibility, clearly stated?
+
+### Automated Verification with AI
+
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: [Insert Bash Script Code Here] 
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: [Insert Bash Script Code Here]"
 ```
 
 ### References
@@ -423,22 +432,28 @@ Code should be as agnostic as possible to ensure compatibility across different 
 1. **OS Compatibility**: Always check for OS compatibility.
 2. **Bash Version**: Make sure the script is compatible with different Bash versions.
 
-### Checklist for Developers
-
-- [ ] Is the code compatible with both Linux and macOS?
-- [ ] Does it adhere to Bash best practices?
-
-### AI-Based Code Verification
-
-To verify if your script is OS-agnostic, you can use the following text to ask the AI:
-
-> "Please analyze the code to ensure it is agnostic, focusing on compatibility with both Linux and macOS."
-
 ### Example
 
 ```bash
 # Determine the home directory in a way that's compatible with both Linux and macOS
 HOME_DIR=$(eval echo ~$USER)
+```
+
+### Developer's Checklist for Agnosticism
+
+- Is the code compatible with both Linux and macOS?
+- Does the code adhere to Bash best practices?
+- Is the script compatible with different Bash versions?
+
+### Automated Verification with AI
+
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices?: [Insert Bash Script Code Here]
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices?: [Insert Bash Script Code Here]"
 ```
 
 ### Reference
