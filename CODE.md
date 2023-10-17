@@ -13,7 +13,6 @@
 1. [Parameters](#parameters)
 1. [Syntax](#syntax)
 1. [Header](#header)
-1. [Repeated Asking](#repeated-asking)
 
 ---
 
