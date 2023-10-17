@@ -107,8 +107,8 @@ done
 > - Are both short (-l) and long (--local) options available?
 > - Are default values specified for optional parameters?
 > - Is early validation performed for parameter values?
-> - Does the --local parameter affect only the project-level settings?
-> - Does the --global parameter affect only the user-level settings?
+> - Does the --local parameter affect only the project-level settings? The --local parameter must be optional and it is the default scope.
+> - Does the --global parameter affect only the user-level settings? The --global parameter must be optional.
 > ?: [Insert Bash Script Code Here]"
 
 ```bash
