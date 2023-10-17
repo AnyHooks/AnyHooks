@@ -21,6 +21,8 @@
 
 This document serves as a comprehensive guide for coding conduct, incorporating various aspects such as variables, debug messages, and more. It is designed to be adaptable across different projects and languages.
 
+---
+
 ## Variables
 
 ### Reason
@@ -105,6 +107,7 @@ DEBUG=${DEBUG:-false}
 - [MIT's Missing Semester - Shell Tools](https://missing.csail.mit.edu/2020/shell-tools/)
 
 ---
+
 ## Debug Messages
 
 ### Reason
@@ -180,6 +183,7 @@ fi
 - [Apple's Human Interface Guidelines: Handling Errors](https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/handling-errors/)
 
 ---
+
 ## Confirmations
 
 ### Reason
