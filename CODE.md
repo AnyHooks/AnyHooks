@@ -315,12 +315,37 @@ fi
 - [Bash Best Practices by MIT](http://www.bash.academy/)
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Syntax)
 
+---
+
 ## Header
 
 ### Reason
-- A header provides metadata about the script, including its limitations.
+
+A header is mandatory for every script as it provides essential metadata about the script, such as its purpose, author, and limitations. This information is crucial for understanding the script's context and dependencies.
+
+### Guide
+
+1. **Script Name**: Always specify the name of the script.
+2. **Author**: Include the name of the author or authors.
+3. **Creation Date**: Mention the date when the script was created.
+4. **Description**: Provide a brief description of what the script does.
+5. **Dependencies**: List any dependencies that the script relies on.
+6. **Limitations**: Clearly state any limitations, such as OS compatibility.
+
+### Checklist for Developers
+
+- [ ] Is the header present at the top of the script?
+- [ ] Does it include all the mandatory fields?
+- [ ] Are the limitations clearly stated?
+
+### AI-Based Code Verification
+
+To verify if your script's header adheres to these guidelines, you can use the following text to ask the AI:
+
+> "Please analyze the header of the code to ensure it contains all the mandatory fields like Script Name, Author, Creation Date, Description, Dependencies, and Limitations."
 
 ### Example
+
 ```bash
 #!/bin/bash
 # Script: rc/anyhooks
@@ -331,8 +356,11 @@ fi
 # Limitations:  Linux, macOS
 ```
 
-### Reference
-- [Apple's Shell Scripting Primer](https://developer.apple.com/library/archive/documentation/OpenSource/Conceptual/ShellScripting/ShellScripting.pdf)
+### References
+
+- [Apple's Shell Scripting Primer](https://developer.apple.com/library/archive/documentation/OpenSource/Conceptual/ShellScripting/Introduction/Introduction.html)
+
+---
 
 ## Agnosticism
 
