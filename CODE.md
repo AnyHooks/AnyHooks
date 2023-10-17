@@ -21,7 +21,6 @@
 This document serves as a comprehensive guide for coding conduct, incorporating various aspects such as variables, debug messages, and more. It is designed to be adaptable across different projects and languages.
 
 ---
-
 ## Variables
 
 ### Reason
@@ -54,7 +53,6 @@ This checklist and the automated verification parameters should help in ensuring
 - [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s7.1-variable-names)
 
 ---
-
 ## Parameters
 
 ### Rationale
@@ -130,7 +128,6 @@ done
 - [MIT's Missing Semester - Shell Tools](https://missing.csail.mit.edu/2020/shell-tools/)
 
 ---
-
 ## Debug Messages
 
 ### Reason
@@ -143,7 +140,6 @@ if [ "$DEBUG" == "true" ]; then
 fi
 ```
 
----
 ### Checklist for Debug Messages
 
 - Is the debug flag (`$DEBUG`) used to control the display of debug messages?
@@ -165,6 +161,7 @@ fi
 ### Reference
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin)
 
+---
 ## Error Messages
 
 ### Reason
@@ -212,9 +209,9 @@ fi
 ### Reference
 - [Microsoft's Guidelines for Error Messages](https://docs.microsoft.com/en-us/windows/win32/uxguide/mess-error)
 - [Apple's Human Interface Guidelines: Handling Errors](https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/handling-errors/)
+- [Microsoft's Best Practices for Writing Error Messages](https://docs.microsoft.com/en-us/windows/win32/debug/writing-error-messages)
 
 ---
-
 ## Confirmations
 
 ### Reason
@@ -245,8 +242,6 @@ fi
 - Following API calls to validate both the call and the expected outcome.
 - After setting environment variables or changing system settings to confirm they have been applied.
 
-Entendido, Ricardo. Aqui estão as versões revisadas:
-
 ### Developer's Checklist for Confirmations
 
 - Todas as operações estão seguidas de verificações de confirmação?
@@ -265,7 +260,8 @@ Entendido, Ricardo. Aqui estão as versões revisadas:
 
 ### References
 
-- [Microsoft's Best Practices for Writing Error Messages](https://docs.microsoft.com/en-us/windows/win32/debug/writing-error-messages)
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ---
 ## Error Numbering
