@@ -13,7 +13,7 @@
 10. [Header](#header)
 11. [Agnosticism](#agnosticism)
 12. [Preferences](#preferences)
-13. [Approaches](#approaches)
+13. [Dynalic matching](#dynalic-maching)
 14. [Repeated Asking](#repeated-asking)
 
 ---
@@ -271,9 +271,6 @@ echo "Error $FILE_NOT_FOUND: File not found."
 - [Microsoft's Guidelines for Error Handling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design#error-return-codes)
 
 ---
-Certainly, Ricardo. Below is the revised section for "Syntax" with the additional details you requested:
-
----
 
 ## Syntax
 
@@ -436,34 +433,37 @@ export DEBUG=false
 
 ---
 
-## Approaches
+## Dynalic Matching
 
 ### Reason
-- Regular expressions in Bash should be the priority for dynamic matching
 
-.
+Regular expressions in Bash should be the priority for dynamic matching. This ensures better performance and maintainability.
+
+### Guide
+
+1. **Regular Expressions**: Use Bash's built-in regular expression support whenever possible.
+2. **Fallback**: Use `grep` only when the required functionality is not supported by Bash.
+
+### Checklist for Developers
+
+- [ ] Are regular expressions used for dynamic matching?
+- [ ] Is `grep` used only as a fallback?
+
+### AI-Based Code Verification
+
+To verify if your script uses regular expressions in Bash effectively, you can use the following text to ask the AI:
+
+> "Please analyze the code to ensure it uses regular expressions in Bash for dynamic matching, and uses `grep` only as a fallback."
 
 ### Example
+
 ```bash
+# Using Bash's built-in regular expression support
 if [[ $string =~ ^[0-9]+$ ]]; then
   echo "It's a number."
 fi
 ```
 
 ### Reference
-- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s7-naming-conventions)
 
-## Repeated Asking
-
-### Reason
-- Repeated asking of the same information should be avoided.
-
-### Example
-```bash
-if [ -z "$user_input" ]; then
-  read -p "Enter your input: " user_input
-fi
-```
-
-### Reference
-- [MIT Usability Guidelines](http://web.mit.edu/6.813/www/sp18/classes/05-user-testing/)
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
