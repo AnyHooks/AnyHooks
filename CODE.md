@@ -90,11 +90,6 @@ while [[ "$#" -gt 0 ]]; do
 done
 ```
 
-### Reference
-- [Git Config Documentation](https://git-scm.com/docs/git-config)
-
----
-
 ## Checklist for Parameters (Without Guidelines)
 
 1. Is the parameter name self-explanatory?
@@ -108,13 +103,14 @@ done
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines.
 > Please analyze the code to check it follows the guidelines: 
-- Is the parameter name self-explanatory?
-- Are both short (-l) and long (--local) options available?
-- Are default values specified for optional parameters?
-- Is early validation performed for parameter values?
-- Does the --local parameter affect only the project-level settings?
-- Does the --global parameter affect only the user-level settings?
-?: [Insert Bash Script Code Here]"
+> - Is the parameter name self-explanatory?
+> - Are both short (-l) and long (--local) options available?
+> - Are default values specified for optional parameters?
+> - Is early validation performed for parameter values?
+> - Does the --local parameter affect only the project-level settings?
+> - Does the --global parameter affect only the user-level settings?
+> ?: [Insert Bash Script Code Here]"
+
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
 
@@ -131,6 +127,7 @@ done
 ### References
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters)
 - [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s5.1-issues-with-flags)
+- [Git Config Documentation](https://git-scm.com/docs/git-config)
 - [MIT's Missing Semester - Shell Tools](https://missing.csail.mit.edu/2020/shell-tools/)
 
 ---
