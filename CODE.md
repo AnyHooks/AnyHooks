@@ -148,6 +148,28 @@ if [ "$DEBUG" == "true" ]; then
 fi
 ```
 
+---
+### Checklist for Debug Messages
+
+- Is the debug flag (`$DEBUG`) used to control the display of debug messages?
+- Are debug messages clearly labeled with a "Debug:" prefix?
+- Are sensitive or private information excluded from debug messages?
+- Are debug messages optional and controlled by a flag or environment variable?
+
+### Automated Verification with AI
+
+For automated verification with AI, you can use the following `--arg sys_content` and `--arg user_content` parameters:
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of debug messages. Ensure that debug messages assist in troubleshooting and are optional. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are debug messages optional and controlled by a flag or environment variable?: [Insert Bash Script Code Here]"
+```
+
+### Reference
+
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
+
 ### Reference
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin)
 
