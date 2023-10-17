@@ -45,7 +45,7 @@ This checklist and the automated verification parameters should help in ensuring
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of variables. Ensure that variable names are descriptive and improve code readability and maintainability. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are environment variables in uppercase and script-level variables in lowercase? Are the variables well-commented to indicate their purpose?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are variables in uppercase and function-level variables in lowercase? Are the variables well-commented to indicate their purpose?: [Insert Bash Script Code Here]
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of variables. Ensure that variable names are descriptive and improve code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
 --arg user_content "Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are environment variables in uppercase and script-level variables in lowercase? Are the variables well-commented to indicate their purpose?: [Insert Bash Script Code Here]"
