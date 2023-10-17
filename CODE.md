@@ -3,7 +3,7 @@
 ## Table of Contents
 
 1. [Confirmations](#confirmations)
-1. [Dynalic matching](#dynalic-maching)
+1. [Regex](#regex)
 1. [Agnosticism](#agnosticism)
 1. [Preferences](#preferences)
 1. [Debug Messages](#debug-messages)
@@ -509,7 +509,7 @@ Certainly, Ricardo. Here are the details you requested:
 
 ---
 
-## Dynalic Matching
+## Regex
 
 ### Reason
 
@@ -537,13 +537,14 @@ Certainly, Ricardo. Below are the details you requested:
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: 
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability.
+> Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback.
+> [Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability."
 
---arg user_content "Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]"
+--arg user_content "Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback. [Insert Bash Script Code Here]"
 ```
 
 ### Reference
