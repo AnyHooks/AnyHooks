@@ -85,8 +85,8 @@ To initiate the verification, you could say something like:
 
 > Please analyze the code to check if the parameters follow the guidelines. Look for explicitness, default values, and validation:
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Look for issues related to variables, debug messages, error messages, confirmations, verifications, error numbering, sequences, syntax, header, agnosticism, preferences, and approaches. Provide a revised version of the code that aligns with these guidelines." 
- --arg user_content "Please analyze the code to check if the parameters follow the guidelines. Look for explicitness, default values, and validation: Is the parameter name descriptive? Are both —local and —global options provided? Are default values set for optional parameters? Is parameter validation performed?: [Insert Bash Script Code Here]" 
+"You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Look for issues related to variables, debug messages, error messages, confirmations, verifications, error numbering, sequences, syntax, header, agnosticism, preferences, and approaches. Provide a revised version of the code that aligns with these guidelines." 
+"Please analyze the code to check if the parameters follow the guidelines. Look for explicitness, default values, and validation: Is the parameter name descriptive? Are both —local and —global options provided? Are default values set for optional parameters? Is parameter validation performed?: [Insert Bash Script Code Here]" 
 ```
 
 ### References
