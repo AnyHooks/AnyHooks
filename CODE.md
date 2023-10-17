@@ -231,17 +231,6 @@ Confirmation messages provide feedback to the user, indicating that an operation
 1. **Explicitness**: Make the confirmation message clear and to the point.
 2. **Timing**: Display the confirmation message immediately after the successful completion of an operation.
 
-### Checklist for Developers
-
-- [ ] Is the confirmation message explicit and clear?
-- [ ] Is the message displayed at the right time?
-
-### AI-Based Code Verification
-
-To verify if your confirmations adhere to these guidelines, you can use the following text to ask the AI:
-
-> "Please analyze the code to check if the confirmation messages follow the guidelines. Look for explicitness and timing."
-
 ### Example
 
 ```bash
@@ -256,6 +245,21 @@ fi
 - After successful file operations (e.g., file creation, deletion).
 - Upon successful API calls.
 - After successful user authentication.
+
+Certainly, Ricardo. Below are the details you requested:
+
+### Developer's Checklist for Crafting Confirmation Messages
+
+- Is the confirmation message explicit and clear?
+- Is the message displayed at the right time?
+
+### Automated Verification with AI
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]"
+```
 
 ### References
 
