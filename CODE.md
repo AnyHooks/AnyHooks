@@ -430,7 +430,7 @@ Code should be as agnostic as possible to ensure compatibility across different 
 ### Guide
 
 1. **OS Compatibility**: Always check for OS compatibility.
-2. **Bash Version**: Make sure the script is compatible with different Bash versions.
+2. **Bash Version**: Make sure the script is compatible with biult-in Bash.
 
 ### Example
 
@@ -443,17 +443,17 @@ HOME_DIR=$(eval echo ~$USER)
 
 - Is the code compatible with both Linux and macOS?
 - Does the code adhere to Bash best practices?
-- Is the script compatible with different Bash versions?
+- Is the script built-in Bash commands only?
 
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices?: [Insert Bash Script Code Here]
+> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?: [Insert Bash Script Code Here]
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines."
 
---arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices?: [Insert Bash Script Code Here]"
+--arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices Is the script built-in Bash commands only?: [Insert Bash Script Code Here]"
 ```
 
 ### Reference
@@ -473,17 +473,6 @@ Preferences should be easily configurable and stored in dot files, either at the
 1. **Dot Files**: Use dot files to store preferences.
 2. **Scope**: Allow for global (`--global`) and local (`--local`) preferences.
 
-### Checklist for Developers
-
-- [ ] Are preferences stored in dot files?
-- [ ] Is there an option for global and local preferences?
-
-### AI-Based Code Verification
-
-To verify if your script handles preferences correctly, you can use the following text to ask the AI:
-
-> "Please analyze the code to ensure it handles preferences correctly, focusing on storage in dot files and scope options."
-
 ### Example
 
 ```bash
@@ -492,6 +481,23 @@ export DEBUG=true
 
 # ./.my_preferences for local preferences
 export DEBUG=false
+```
+Certainly, Ricardo. Here are the details you requested:
+
+### Developer's Checklist for Preferences
+
+- Are preferences stored in dot files?
+- Is there an option for both global (`--global`) and local (`--local`) preferences?
+
+### Automated Verification with AI
+
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]"
 ```
 
 ### Reference
@@ -511,17 +517,6 @@ Regular expressions in Bash should be the priority for dynamic matching. This en
 1. **Regular Expressions**: Use Bash's built-in regular expression support whenever possible.
 2. **Fallback**: Use `grep` only when the required functionality is not supported by Bash.
 
-### Checklist for Developers
-
-- [ ] Are regular expressions used for dynamic matching?
-- [ ] Is `grep` used only as a fallback?
-
-### AI-Based Code Verification
-
-To verify if your script uses regular expressions in Bash effectively, you can use the following text to ask the AI:
-
-> "Please analyze the code to ensure it uses regular expressions in Bash for dynamic matching, and uses `grep` only as a fallback."
-
 ### Example
 
 ```bash
@@ -529,6 +524,23 @@ To verify if your script uses regular expressions in Bash effectively, you can u
 if [[ $string =~ ^[0-9]+$ ]]; then
   echo "It's a number."
 fi
+```
+Certainly, Ricardo. Below are the details you requested:
+
+### Developer's Checklist for Dynamic Matching
+
+- Are regular expressions used for dynamic matching?
+- Is `grep` used only as a fallback?
+
+### Automated Verification with AI
+
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]"
 ```
 
 ### Reference
