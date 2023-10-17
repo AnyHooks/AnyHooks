@@ -109,7 +109,7 @@ done
 > - Is early validation performed for parameter values?
 > - Does the --local parameter affect only the project-level settings? The --local parameter must be optional and it is the default scope.
 > - Does the --global parameter affect only the user-level settings? The --global parameter must be optional.
-> ?: [Insert Bash Script Code Here]"
+> ?:"
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
