@@ -45,20 +45,28 @@ user_input=""           # Script-level variable
 ### Rationale
 Parameters provide a way to customize the behavior of a script. They make the script more flexible and easier to use in different scenarios.
 
-### Guidelines for Creating Parameters
+## Guidelines for Creating Parameters
 
-1. **Descriptive Names**: Use descriptive names for parameters to make it clear what they control.
-2. **Short and Long Options**: Provide both short and long options for parameters.
-3. **Default Values**: Set sensible default values for optional parameters.
-4. **Validation**: Validate parameter values early in the script.
+### Descriptive Names
+- Use descriptive names for parameters to clarify their functionality.
 
-#### Example
+### Scope Parameters
+- Provide a `--local` parameter for project-level configurations.
+- Provide a `--global` parameter for user-level configurations at `~/`.
+
+### Default Values
+- Set sensible default values for optional parameters.
+
+### Validation
+- Validate parameter values at the beginning of the script to prevent errors.
+
+### Example
 ```bash
 # Parsing parameters
 while [[ "$#" -gt 0 ]]; do
   case $1 in
-    -l|--local) local="$2"; shift ;;
-    -g|--global) global="$2"; shift ;;
+    -l|--local) local_dir="$2"; shift ;;
+    -g|--global) global_dir="$2"; shift ;;
     -d|--debug) debug=true ;;
     *) echo "Unknown parameter: $1"; exit 1 ;;
   esac
@@ -66,11 +74,19 @@ while [[ "$#" -gt 0 ]]; do
 done
 ```
 
-### Checklist for Parameters
-- [ ] Is the parameter name descriptive?
-- [ ] Are both short and long options provided?
-- [ ] Are default values set for optional parameters?
-- [ ] Is parameter validation performed?
+### Reference
+- [Git Config Documentation](https://git-scm.com/docs/git-config)
+
+---
+
+## Checklist for Parameters (Without Guidelines)
+
+1. Is the parameter name self-explanatory?
+2. Are both short (`-l`) and long (`--local`) options available?
+3. Are default values specified for optional parameters?
+4. Is early validation performed for parameter values?
+5. Does the `--local` parameter affect only the project-level settings?
+6. Does the `--global` parameter affect only the user-level settings?
 
 ### Automated Verification
 To verify if your parameters adhere to these guidelines, you can use an automated verification process. Copy and paste the parameter-handling code snippet into the chat and request a line-by-line verification against the checklist.
