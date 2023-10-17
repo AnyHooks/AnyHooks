@@ -494,11 +494,12 @@ Certainly, Ricardo. Here are the details you requested:
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: 
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a full-file revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?:
+[Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a full-file revised version of the code that aligns with these guidelines."
 
 --arg user_content "Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]"
 ```
