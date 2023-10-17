@@ -278,18 +278,6 @@ Error numbering facilitates debugging and improves the quality of documentation.
 2. **Documentation**: Document each error number along with its corresponding message and possible resolution steps.
 3. **Consistency**: Use a consistent numbering scheme, such as starting from 100 for file-related errors, 200 for network-related errors, etc.
 
-### Checklist for Developers
-
-- [ ] Is the error number unique?
-- [ ] Is the error number documented?
-- [ ] Does the error number follow the established numbering scheme?
-
-### AI-Based Code Verification
-
-To verify if your error numbering adheres to these guidelines, you can use the following text to ask the AI:
-
-> "Please analyze the code to check if the error numbering follows the guidelines. Look for uniqueness, documentation, and consistency."
-
 ### Example
 
 ```bash
@@ -303,6 +291,19 @@ API_CALL_FAILED=201
 
 # Usage
 echo "Error $FILE_NOT_FOUND: File not found."
+```
+
+### Developer's Checklist for Crafting Confirmation Messages
+
+- Is the confirmation message explicit and clear?
+- Is the message displayed at the right time?
+
+### Automated Verification with AI
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]"
 ```
 
 ### References
