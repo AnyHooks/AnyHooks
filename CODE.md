@@ -2,17 +2,17 @@
 
 ## Table of Contents
 
-1. [Variables](#variables)
-1. [Parameters](#parameters)
-1. [Debug Messages](#debug-messages)
-1. [Error Messages](#error-messages)
 1. [Confirmations](#confirmations)
-1. [Error Numbering](#error-numbering)
-1. [Syntax](#syntax)
-1. [Header](#header)
+1. [Dynalic matching](#dynalic-maching)
 1. [Agnosticism](#agnosticism)
 1. [Preferences](#preferences)
-1. [Dynalic matching](#dynalic-maching)
+1. [Debug Messages](#debug-messages)
+1. [Error Messages](#error-messages)
+1. [Error Numbering](#error-numbering)
+1. [Variables](#variables)
+1. [Parameters](#parameters)
+1. [Syntax](#syntax)
+1. [Header](#header)
 1. [Repeated Asking](#repeated-asking)
 
 ---
