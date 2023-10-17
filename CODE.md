@@ -365,29 +365,75 @@ To verify if your script's header adheres to these guidelines, you can use the f
 ## Agnosticism
 
 ### Reason
-- Code should be as agnostic as possible to ensure compatibility.
+
+Code should be as agnostic as possible to ensure compatibility across different environments. The primary focus should be on compatibility with Linux and macOS when using Bash scripts.
+
+### Guide
+
+1. **OS Compatibility**: Always check for OS compatibility.
+2. **Bash Version**: Make sure the script is compatible with different Bash versions.
+
+### Checklist for Developers
+
+- [ ] Is the code compatible with both Linux and macOS?
+- [ ] Does it adhere to Bash best practices?
+
+### AI-Based Code Verification
+
+To verify if your script is OS-agnostic, you can use the following text to ask the AI:
+
+> "Please analyze the code to ensure it is agnostic, focusing on compatibility with both Linux and macOS."
 
 ### Example
+
 ```bash
-HOME_DIR=~
+# Determine the home directory in a way that's compatible with both Linux and macOS
+HOME_DIR=$(eval echo ~$USER)
 ```
 
 ### Reference
-- [Open Source Initiative](https://opensource.org/)
+
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Bash-Startup-Files)
+
+---
 
 ## Preferences
 
 ### Reason
-- Preferences should be easily configurable and stored in dot files.
+
+Preferences should be easily configurable and stored in dot files, either at the user level (`--global`) or at the project level (`--local`).
+
+### Guide
+
+1. **Dot Files**: Use dot files to store preferences.
+2. **Scope**: Allow for global (`--global`) and local (`--local`) preferences.
+
+### Checklist for Developers
+
+- [ ] Are preferences stored in dot files?
+- [ ] Is there an option for global and local preferences?
+
+### AI-Based Code Verification
+
+To verify if your script handles preferences correctly, you can use the following text to ask the AI:
+
+> "Please analyze the code to ensure it handles preferences correctly, focusing on storage in dot files and scope options."
 
 ### Example
+
 ```bash
-# ~/.my_preferences
+# ~/.my_preferences for global preferences
 export DEBUG=true
+
+# ./.my_preferences for local preferences
+export DEBUG=false
 ```
 
 ### Reference
+
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Bash-Startup-Files)
+
+---
 
 ## Approaches
 
