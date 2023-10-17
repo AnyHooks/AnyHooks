@@ -12,8 +12,9 @@
 9. [Syntax](#syntax)
 10. [Header](#header)
 11. [Agnosticism](#agnosticism)
-12. [Approaches](#approaches)
-13. [Repeated Asking](#repeated-asking)
+12. [Preferences](#preferences)
+13. [Approaches](#approaches)
+14. [Repeated Asking](#repeated-asking)
 
 ---
 
