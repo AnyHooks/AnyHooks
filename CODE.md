@@ -182,13 +182,6 @@ For automated verification with AI, you can use the following `--arg sys_content
 5. **No Blame**: Avoid phrasing that blames users or implies they are doing something wrong.
 6. **No Humor**: Avoid humor since it can become stale if users encounter the error frequently.
 
-### Developer's Checklist for Crafting Error Messages
-- [ ] Is the message clear and easily understandable?
-- [ ] Does the message provide actionable steps or suggestions?
-- [ ] Is the tone of the message positive and nonjudgmental?
-- [ ] Does the message avoid blaming the user?
-- [ ] Is humor or sarcasm absent from the message?
-
 ### Example
 ```bash
 if [ -z "$API_KEY" ]; then
@@ -199,6 +192,26 @@ if [ -z "$API_KEY" ]; then
   exit 1
 fi
 ```
+
+### Developer's Checklist for Crafting Error Messages
+
+- Is the message clear and free from jargon or complex terms?
+- Does the message have a logical flow?
+- Does the message provide actionable steps or suggestions?
+- Is the tone of the message positive and nonjudgmental?
+- Does the message avoid blaming the user?
+- Is humor or sarcasm absent from the message?
+
+### Automated Verification with AI
+
+For automated verification with AI, you can use the following `--arg sys_content` and `--arg user_content` parameters:
+
+```bash
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of error messages. Ensure that error messages are clear, actionable, and maintain a positive tone. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check if the error messages follow the guidelines: Is the message clear and free from jargon or complex terms? Does the message have a logical flow? Does the message provide actionable steps or suggestions? Is the tone of the message positive and nonjudgmental? Does the message avoid blaming the user? Is humor or sarcasm absent from the message?: [Insert Bash Script Code Here]"
+```
+
 ### Reference
 - [Microsoft's Guidelines for Error Messages](https://docs.microsoft.com/en-us/windows/win32/uxguide/mess-error)
 - [Apple's Human Interface Guidelines: Handling Errors](https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/handling-errors/)
