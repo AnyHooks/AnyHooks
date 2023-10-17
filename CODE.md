@@ -34,6 +34,14 @@ This document serves as a comprehensive guide for coding conduct, incorporating 
 API_KEY="your-api-key"  # Environment variable
 user_input=""           # Script-level variable
 ```
+### Checklist for Variables
+
+- Are the variable names descriptive?
+- Are environment variables in uppercase?
+- Are script-level variables in lowercase?
+- Are the variables well-commented to indicate their purpose?
+
+This checklist and the automated verification parameters should help in ensuring that the Bash Script code adheres to best practices for variable naming and commenting.
 
 ### Automated Verification with AI
 
