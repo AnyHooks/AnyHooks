@@ -88,21 +88,28 @@ done
 5. Does the `--local` parameter affect only the project-level settings?
 6. Does the `--global` parameter affect only the user-level settings?
 
-### Automated Verification
-To verify if your parameters adhere to these guidelines, you can use an automated verification process. Copy and paste the parameter-handling code snippet into the chat and request a line-by-line verification against the checklist.
+### Automated Verification with AI
 
-#### How to Use
-1. Copy the parameter-handling code snippet.
-2. Paste it into the chat with ChatGPT.
-3. Request a line-by-line verification against the checklist.
-
-#### Example Request
-To initiate the verification, you could say something like:
-
-> Please analyze the code to check if the parameters follow the guidelines. Look for explicitness, default values, and validation:
+> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines.
+> Please analyze the code to check it follows the guidelines: 
+- Is the parameter name self-explanatory?
+- Are both short (-l) and long (--local) options available?
+- Are default values specified for optional parameters?
+- Is early validation performed for parameter values?
+- Does the --local parameter affect only the project-level settings?
+- Does the --global parameter affect only the user-level settings?
+?: [Insert Bash Script Code Here]"
 ```bash
-"You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Look for issues related to variables, debug messages, error messages, confirmations, verifications, error numbering, sequences, syntax, header, agnosticism, preferences, and approaches. Provide a revised version of the code that aligns with these guidelines." 
-"Please analyze the code to check if the parameters follow the guidelines. Look for explicitness, default values, and validation: Is the parameter name descriptive? Are both —local and —global options provided? Are default values set for optional parameters? Is parameter validation performed?: [Insert Bash Script Code Here]" 
+--arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
+
+--arg user_content "Please analyze the code to check it follows the guidelines: 
+- Is the parameter name self-explanatory?
+- Are both short (-l) and long (--local) options available?
+- Are default values specified for optional parameters?
+- Is early validation performed for parameter values?
+- Does the --local parameter affect only the project-level settings?
+- Does the --global parameter affect only the user-level settings?
+?: [Insert Bash Script Code Here]"
 ```
 
 ### References
