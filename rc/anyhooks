@@ -12,10 +12,10 @@ HOME_DIR=$(eval echo ~$USER)
 create_config_file() {
   # the default if not informed
   CONFIG_FILE="$HOME_DIR/.anyhooksrc"
-  if [ "$1" == "--global" ] || [ "$1" == "-g" ]; then
+  if [[ "$1" =~ "--global|-g" ]]; then
     CONFIG_FILE="$HOME_DIR/.anyhooksrc"
   fi
-  if [ "$1" == "--local" ] || [ "$1" == "-l" ]; then
+  if [[ "$1" =~ "--local|-l" ]]; then
     CONFIG_FILE="$3/.anyhooksrc"
   fi
   if [ ! -f "$CONFIG_FILE" ]; then
@@ -76,9 +76,9 @@ deploy_commit_msg() {
 
 # Function to add hooks to the project
 add_hook() {
-  if [ "$1" == "-hook" ]; then
+  if [[ "$1" =~ "-hook" ]]; then
     for arg in "$@"; do
-      if [ "$arg" == "--msg" ] || [ "$arg" == "--message" ]; then
+      if [[ "$arg" =~ "--msg|--message" ]]; then
         deploy_commit_msg $@
         if [ $? -eq 0 ]; then
           echo "Commit message deployed successfully."
