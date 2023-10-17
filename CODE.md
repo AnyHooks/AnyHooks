@@ -256,8 +256,7 @@ fi
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation. Provide a revised version of the code that aligns with these guidelines."
-> Please analyze the code to check if it follows the guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation?:
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation. Provide a full file revised version of the code that aligns with these guidelines. The guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation? When it is about file operations, it's not only to check the file itself but the properties of the file to expose in the message:
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation. Provide a revised version of the code that aligns with these guidelines."
