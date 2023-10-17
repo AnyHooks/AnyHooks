@@ -167,10 +167,6 @@ For automated verification with AI, you can use the following `--arg sys_content
 ```
 
 ### Reference
-
-- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
-
-### Reference
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin)
 
 ## Error Messages
@@ -203,31 +199,6 @@ if [ -z "$API_KEY" ]; then
   exit 1
 fi
 ```
-
-### Automated Checklist Verification
-To ensure that your error messages adhere to the guidelines, you can use an automated verification process. Copy and paste the error message code snippet into the chat, and request a line-by-line verification against the checklist.
-
-#### How to Use
-1. Copy the error message code snippet.
-2. Paste it into the chat with ChatGPT.
-3. Request a line-by-line verification against the checklist.
-
-This will allow you or another developer to quickly assess whether the error message meets the guidelines.
-
-#### Example Request
-To initiate the verification, you could say something like:
-
-> Please verify the following error message code snippet against the error message checklist:
-```bash
-if [ -z "$API_KEY" ]; then
-  echo "Oops! It looks like the API key is missing."
-  echo "To resolve this, please set your API key and try again."
-  echo "If you need further assistance, consider contacting your system administrator or opening a support ticket."
-  echo "For open-source projects, you can also seek help from the community on GitHub."
-  exit 1
-fi
-```
-
 ### Reference
 - [Microsoft's Guidelines for Error Messages](https://docs.microsoft.com/en-us/windows/win32/uxguide/mess-error)
 - [Apple's Human Interface Guidelines: Handling Errors](https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/handling-errors/)
