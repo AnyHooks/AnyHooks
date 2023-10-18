@@ -8,14 +8,15 @@
 # Defines the debug state for this script
 IS_DEBUG_MODE=false
 
+# Defines the scope for the current task
+SCOPE="global"
+
 # OS-agnostic home directory
 USER_HOME_DIR=$(eval echo ~$USER)
 
 # Debug function
 display_debug_message() {
-  if [ ${IS_DEBUG_MODE} == true ]; then
-    echo "Debug: $1"
-  fi
+  [ ${IS_DEBUG_MODE} = true ] && echo "Debug: $1"
 }
 
 # Function to create the configuration file if it doesn't exist
@@ -172,6 +173,12 @@ main() {
       "encrypt")
         encrypt_key $2 $3 $4
         ;;
+      "-g" | "--global")
+        SCOPE="global"
+        ;;
+      "-l" | "--local")
+        SCOPE="local"
+        ;;
       "language")
         set_language $2 $3
         ;;
@@ -182,6 +189,12 @@ main() {
         echo "Invalid command."
         ;;
     esac
+    # Validate scope
+    if [ "$scope" != "local" ] && [ "$scope" != "global" ]; then
+      echo "Invalid scope: $scope"
+      return 1
+    fi
+    display_debug_message "Scope: $SCOPE"
   else
     echo "Failed to create or check configuration file."
     return 1009
