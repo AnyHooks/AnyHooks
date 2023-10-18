@@ -89,18 +89,38 @@ deploy_commit_msg() {
   display_debug_message "Exiting deploy_commit_msg function"
 }
 
+# Function to undeploy commit message
+undeploy_commit_msg() {
+  display_debug_message "Entering undeploy_commit_msg function"
+  check_encrypt_key_file
+  if [ $? -eq 0 ]; then
+    SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+    mv "$3/.git/hooks/commit-msg" "$3/.git/hooks/commit-msg.removed"
+    if [ $? -eq 0 ]; then
+      echo "Script hook commit-msg successfully undeployed in $3."
+    else
+      echo "Unable to undeploy the commit message hook. Please check the project directory informed [$3]."
+      return 1005
+    fi
+  else
+    echo "Failed to check or create encrypted API key file."
+    return 1006
+  fi
+  display_debug_message "Exiting undeploy_commit_msg function"
+}
+
 # Function to add hooks to the project
 add_hook() {
   display_debug_message "Entering add_hook function"
   if [[ "$1" =~ "-hook" ]]; then
     for arg in "$@"; do
-      if [[ "$arg" =~ "--msg|--message" ]]; then
+      if [[ "$arg" =~ "commit-msg" ]]; then
         deploy_commit_msg $@
         if [ $? -eq 0 ]; then
           echo "Commit message deployed successfully."
         else
           echo "Unable to deploy the commit message. Please review your hook settings."
-          return 1005
+          return 1007
         fi
         break
       fi
@@ -111,6 +131,28 @@ add_hook() {
   display_debug_message "Exiting add_hook function"
 }
 
+# Function to remove hooks from the project
+remove_hook() {
+  display_debug_message "Entering remove_hook function"
+  if [[ "$1" =~ "-hook" ]]; then
+    for arg in "$@"; do
+      if [[ "$arg" =~ "commit-msg" ]]; then
+        undeploy_commit_msg $@
+        if [ $? -eq 0 ]; then
+          echo "Commit message undeployed successfully."
+        else
+          echo "Unable to undeploy the commit message. Please review your hook settings."
+          return 1008
+        fi
+        break
+      fi
+    done
+  else
+    echo "Invalid command."
+  fi
+  display_debug_message "Exiting remove_hook function"
+}
+
 # Function to encrypt API keys
 encrypt_key() {
   display_debug_message "Entering encrypt_key function"
@@ -119,7 +161,7 @@ encrypt_key() {
     echo "API keys encrypted successfully."
   else
     echo "Unable to encrypt API keys. Please verify your encryption parameters."
-    return 1006
+    return 1009
   fi
   display_debug_message "Exiting encrypt_key function"
 }
@@ -132,7 +174,7 @@ set_language() {
     echo "Language set successfully."
   else
     echo "Unable to set the language. Please ensure the language is supported."
-    return 1007
+    return 1010
   fi
   display_debug_message "Exiting set_language function"
 }
@@ -145,7 +187,7 @@ show_version() {
     echo "Version displayed successfully."
   else
     echo "Unable to display the version. Please check your version settings."
-    return 1008
+    return 1011
   fi
   display_debug_message "Exiting show_version function"
 }
@@ -180,6 +222,10 @@ main() {
       "language")
         set_language $2 $3
         ;;
+      "remove")
+        shift
+        remove_hook "$@"
+        ;;
       "--version")
         show_version
         ;;
@@ -195,7 +241,7 @@ main() {
     display_debug_message "Scope: $SCOPE"
   else
     echo "Failed to create or check configuration file."
-    return 1009
+    return 1012
   fi
   display_debug_message "Exiting main function"
 }
