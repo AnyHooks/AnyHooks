@@ -5,11 +5,22 @@
 # Description: Manages hooks, encryption, and language settings for AnyHooks
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 
+# Defines the debug state for this script
+DEBUG=false
+
 # OS-agnostic home directory
 HOME_DIR=$(eval echo ~$USER)
 
+# Debug function
+debug_msg() {
+  if [ $DEBUG == true ]; then
+    echo "Debug: $1"
+  fi
+}
+
 # Function to create the configuration file if it doesn't exist
 create_config_file() {
+  debug_msg "Entering create_config_file function"
   # the default if not informed
   CONFIG_FILE="$HOME_DIR/.anyhooksrc"
   if [[ "$1" =~ "--global|-g" ]]; then
@@ -38,10 +49,12 @@ create_config_file() {
   else
     echo "Configuration file already exists."
   fi
+  debug_msg "Exiting create_config_file function"
 }
 
 # Function to check and encrypt API key file if it doesn't exist
 check_encrypt_key_file() {
+  debug_msg "Entering check_encrypt_key_file function"
   ENCRYPTED_FILE="$HOME_DIR/.anyhooksopenapi.enc"
   if [ ! -f "$ENCRYPTED_FILE" ]; then
     encrypt_key
@@ -54,10 +67,12 @@ check_encrypt_key_file() {
   else
     echo "Encrypted API key file already exists."
   fi
+  debug_msg "Exiting check_encrypt_key_file function"
 }
 
 # Function to deploy commit message
 deploy_commit_msg() {
+  debug_msg "Entering deploy_commit_msg function"
   check_encrypt_key_file
   if [ $? -eq 0 ]; then
     SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -72,10 +87,12 @@ deploy_commit_msg() {
     echo "Failed to check or create encrypted API key file."
     return 1
   fi
+  debug_msg "Exiting deploy_commit_msg function"
 }
 
 # Function to add hooks to the project
 add_hook() {
+  debug_msg "Entering add_hook function"
   if [[ "$1" =~ "-hook" ]]; then
     for arg in "$@"; do
       if [[ "$arg" =~ "--msg|--message" ]]; then
@@ -92,10 +109,12 @@ add_hook() {
   else
     echo "Invalid command."
   fi
+  debug_msg "Exiting add_hook function"
 }
 
 # Function to encrypt API keys
 encrypt_key() {
+  debug_msg "Entering encrypt_key function"
   . "anyhooksencrypt" "config" $@
   if [ $? -eq 0 ]; then
     echo "API keys encrypted successfully."
@@ -103,10 +122,12 @@ encrypt_key() {
     echo "Failed to encrypt API keys."
     return 1
   fi
+  debug_msg "Exiting encrypt_key function"
 }
 
 # Function to set language
 set_language() {
+  debug_msg "Entering set_language function"
   . "anyhookslang" $@
   if [ $? -eq 0 ]; then
     echo "Language set successfully."
@@ -114,10 +135,12 @@ set_language() {
     echo "Failed to set language."
     return 1
   fi
+  debug_msg "Exiting set_language function"
 }
 
 # Function to show version
 show_version() {
+  debug_msg "Entering show_version function"
   . "anyhooksver"
   if [ $? -eq 0 ]; then
     echo "Version displayed successfully."
@@ -125,10 +148,12 @@ show_version() {
     echo "Failed to display version."
     return 1
   fi
+  debug_msg "Exiting show_version function"
 }
 
 # Main function to handle parameters
 main() {
+  debug_msg "Entering main function"
   create_config_file  # Create the configuration file if it doesn't exist
   if [ $? -eq 0 ]; then
     case $1 in
@@ -139,6 +164,10 @@ main() {
       "config")
         shift
         create_config_file "$@"
+        ;;
+      "-d" | "--debug")
+        shift
+        DEBUG=true
         ;;
       "encrypt")
         encrypt_key $2 $3 $4
@@ -157,6 +186,7 @@ main() {
     echo "Failed to create or check configuration file."
     return 1
   fi
+  debug_msg "Exiting main function"
 }
 
 # Call main with all command line arguments
