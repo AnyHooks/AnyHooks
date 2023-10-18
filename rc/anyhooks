@@ -24,12 +24,10 @@ create_configuration_file() {
   display_debug_message "Entering create_configuration_file function"
   # the default if not informed
   CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc"
-  if [[ "$1" =~ "--global|-g" ]]; then
-    CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc"
-  fi
-  if [[ "$1" =~ "--local|-l" ]]; then
-    CONFIGURATION_FILE_PATH="$3/.anyhooksrc"
-  fi
+  case "$1" in
+    "--global"|"-g") CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc" ;;
+    "--local"|"-l") CONFIGURATION_FILE_PATH="$3/.anyhooksrc" ;;
+  esac
   if [ ! -f "$CONFIGURATION_FILE_PATH" ]; then
     echo "#!/bin/bash" > "$CONFIGURATION_FILE_PATH" && \
     echo "# Resource: rc/.anyhooksrc" >> "$CONFIGURATION_FILE_PATH" && \
