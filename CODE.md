@@ -2,18 +2,17 @@
 
 ## Table of Contents
 
-1. [Variables](#variables)
-1. [Parameters](#parameters)
-1. [Debug Messages](#debug-messages)
-1. [Error Messages](#error-messages)
 1. [Confirmations](#confirmations)
-1. [Error Numbering](#error-numbering)
-1. [Syntax](#syntax)
-1. [Header](#header)
+1. [Regex](#regex)
 1. [Agnosticism](#agnosticism)
 1. [Preferences](#preferences)
-1. [Dynalic matching](#dynalic-maching)
-1. [Repeated Asking](#repeated-asking)
+1. [Debug Messages](#debug-messages)
+1. [Error Messages](#error-messages)
+1. [Error Numbering](#error-numbering)
+1. [Variables](#variables)
+1. [Parameters](#parameters)
+1. [Syntax](#syntax)
+1. [Header](#header)
 
 ---
 
@@ -22,7 +21,6 @@
 This document serves as a comprehensive guide for coding conduct, incorporating various aspects such as variables, debug messages, and more. It is designed to be adaptable across different projects and languages.
 
 ---
-
 ## Variables
 
 ### Reason
@@ -39,23 +37,24 @@ user_input=""           # Script-level variable
 - Are environment variables in uppercase?
 - Are script-level variables in lowercase?
 - Are the variables well-commented to indicate their purpose?
+- Are the spelling correct?
+- Are the variable addressed by Parameter Expansion: ${VARIABLE} istead of Simple Variable Expansion: "$VARIABLE"? The ${VARIABLE} syntax is beneficial for more advanced operations. Recommending its use over "$VARIABLE" could lead to more maintainable and flexible code.
 
 This checklist and the automated verification parameters should help in ensuring that the Bash Script code adheres to best practices for variable naming and commenting.
 
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of variables. Ensure that variable names are descriptive and improve code readability and maintainability. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are environment variables in uppercase and script-level variables in lowercase? Are the variables well-commented to indicate their purpose?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are variables in uppercase and function-level variables in lowercase? Are the variables well-commented to indicate their purpose? Are the variable addressed by Parameter Expansion: ${VARIABLE} istead of Simple Variable Expansion: "$VARIABLE"? Are the spelling correct?: [Insert Bash Script Code Here]
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of variables. Ensure that variable names are descriptive and improve code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
---arg user_content "Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are environment variables in uppercase and script-level variables in lowercase? Are the variables well-commented to indicate their purpose?: [Insert Bash Script Code Here]"
+--arg user_content "Please analyze the code to check if the variables follow the guidelines: Are the variable names descriptive? Are variables in uppercase and function-level variables in lowercase? Are the variables well-commented to indicate their purpose? Are the spelling correct? Are the variable addressed by Parameter Expansion: ${VARIABLE} istead of Simple Variable Expansion: "$VARIABLE"? : [Insert Bash Script Code Here]"
 ```
 
 ### Reference
 - [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s7.1-variable-names)
 
 ---
-
 ## Parameters
 
 ### Rationale
@@ -90,11 +89,6 @@ while [[ "$#" -gt 0 ]]; do
 done
 ```
 
-### Reference
-- [Git Config Documentation](https://git-scm.com/docs/git-config)
-
----
-
 ## Checklist for Parameters (Without Guidelines)
 
 1. Is the parameter name self-explanatory?
@@ -103,18 +97,20 @@ done
 4. Is early validation performed for parameter values?
 5. Does the `--local` parameter affect only the project-level settings?
 6. Does the `--global` parameter affect only the user-level settings?
+7. Are (`-d`) and (`--debug`) options available?
 
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines.
 > Please analyze the code to check it follows the guidelines: 
-- Is the parameter name self-explanatory?
-- Are both short (-l) and long (--local) options available?
-- Are default values specified for optional parameters?
-- Is early validation performed for parameter values?
-- Does the --local parameter affect only the project-level settings?
-- Does the --global parameter affect only the user-level settings?
-?: [Insert Bash Script Code Here]"
+> - Is the parameter name self-explanatory?
+> - Are both short (-l) and long (--local) options available?
+> - Are default values specified for optional parameters?
+> - Is early validation performed for parameter values?
+> - Does the --local parameter affect only the project-level settings? The --local parameter must be optional and it is the default scope.
+> - Does the --global parameter affect only the user-level settings? The --global parameter must be optional.
+> - Are (`-d`) and (`--debug`) options available? [Insert Bash Script Code Here]"
+
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
 
@@ -125,16 +121,16 @@ done
 - Is early validation performed for parameter values?
 - Does the --local parameter affect only the project-level settings?
 - Does the --global parameter affect only the user-level settings?
-?: [Insert Bash Script Code Here]"
+- Are (`-d`) and (`--debug`) options available?" [Insert Bash Script Code Here]"
 ```
 
 ### References
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters)
 - [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s5.1-issues-with-flags)
+- [Git Config Documentation](https://git-scm.com/docs/git-config)
 - [MIT's Missing Semester - Shell Tools](https://missing.csail.mit.edu/2020/shell-tools/)
 
 ---
-
 ## Debug Messages
 
 ### Reason
@@ -147,28 +143,29 @@ if [ "$DEBUG" == "true" ]; then
 fi
 ```
 
----
 ### Checklist for Debug Messages
 
 - Is the debug flag (`$DEBUG`) used to control the display of debug messages?
 - Are debug messages clearly labeled with a "Debug:" prefix?
 - Are sensitive or private information excluded from debug messages?
 - Are debug messages optional and controlled by a flag or environment variable?
+- Are there non sensible variables and parameters in the messages? 
 
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of debug messages. Ensure that debug messages assist in troubleshooting and are optional. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are debug messages optional and controlled by a flag or environment variable?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are there non sensible variables and parameters in the messages? Are debug messages optional and controlled by a flag or environment variable?:
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the use of debug messages. Ensure that debug messages assist in troubleshooting and are optional. Provide a revised version of the code that aligns with these guidelines."
 
---arg user_content "Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are debug messages optional and controlled by a flag or environment variable?: [Insert Bash Script Code Here]"
+--arg user_content "Please analyze the code to check if the debug messages follow the guidelines: Is the debug flag used to control the display of debug messages? Are debug messages clearly labeled with a 'Debug:' prefix? Are sensitive or private information excluded from debug messages? Are there non sensible variables and parameters in the messages? Are debug messages optional and controlled by a flag or environment variable?: [Insert Bash Script Code Here]"
 ```
 
 ### Reference
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin)
 
+---
 ## Error Messages
 
 ### Reason
@@ -205,7 +202,7 @@ fi
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of error messages. Ensure that error messages are clear, actionable, and maintain a positive tone. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the error messages follow the guidelines: Is the message clear and free from jargon or complex terms? Does the message have a logical flow? Does the message provide actionable steps or suggestions? Is the tone of the message positive and nonjudgmental? Does the message avoid blaming the user? Is humor or sarcasm absent from the message?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the error messages follow the guidelines: Is the message clear and free from jargon or complex terms? Does the message have a logical flow? Does the message provide actionable steps or suggestions? Is the tone of the message positive and nonjudgmental? Does the message avoid blaming the user? Is humor or sarcasm absent from the message?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of error messages. Ensure that error messages are clear, actionable, and maintain a positive tone. Provide a revised version of the code that aligns with these guidelines."
@@ -216,56 +213,66 @@ fi
 ### Reference
 - [Microsoft's Guidelines for Error Messages](https://docs.microsoft.com/en-us/windows/win32/uxguide/mess-error)
 - [Apple's Human Interface Guidelines: Handling Errors](https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/handling-errors/)
+- [Microsoft's Best Practices for Writing Error Messages](https://docs.microsoft.com/en-us/windows/win32/debug/writing-error-messages)
 
 ---
-
 ## Confirmations
 
 ### Reason
 
-Confirmation messages provide feedback to the user, indicating that an operation has been successfully completed.
+Confirmation checks are essential for validating that previous operations in the code have executed successfully and without errors. These checks enhance the robustness and reliability of the script.
 
 ### Guide
 
-1. **Explicitness**: Make the confirmation message clear and to the point.
-2. **Timing**: Display the confirmation message immediately after the successful completion of an operation.
+1. **Explicit Checks**: Implement explicit checks after each critical operation to confirm its successful execution.
+2. **Error Handling**: Include checks for error messages or error numbers to ensure the operation did not fail.
+3. **Validation**: Confirm the intended effect of the operation, such as verifying that a file has been deleted.
 
 ### Example
 
 ```bash
-# Successful API call
-if [ "$api_status" == "200" ]; then
-  echo "API call successful."
+# Delete a file and confirm its deletion
+rm -f /path/to/file
+if [ $? -eq 0 ] && [ ! -f /path/to/file ]; then
+  echo "File successfully deleted."
+else
+  echo "File deletion failed."
 fi
 ```
 
 ### Situations for Use
 
-- After successful file operations (e.g., file creation, deletion).
-- Upon successful API calls.
-- After successful user authentication.
+- After file operations like creation, deletion, or modification to confirm their successful execution.
+- Following API calls to validate both the call and the expected outcome.
+- After setting environment variables or changing system settings to confirm they have been applied.
 
-Certainly, Ricardo. Below are the details you requested:
+### Developer's Checklist for Confirmations
 
-### Developer's Checklist for Crafting Confirmation Messages
+- Are all operations followed by confirmation checks?
+- Do the confirmation checks include error handling, such as error messages or error numbers?
+- Do the confirmation checks validate the intended effect of the operation?
+- Are the confirmation checks well-documented to indicate their purpose?
 
-- Is the confirmation message explicit and clear?
-- Is the message displayed at the right time?
+### Reference
+
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation.
+> Provide a full file revised version of the code that aligns with these guidelines. The guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation? When it is about file operations, it's not only to check the file itself but the properties of the file to expose in the message:
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the crafting of confirmation messages. Ensure that confirmation messages are explicit, clear, and displayed at the right time. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on confirmation checks after each operation, not just critical operations. Ensure that all operations are followed by confirmation checks and that these checks validate the success of the operation."
 
---arg user_content "Please analyze the code to check if the confirmation messages follow the guidelines: Is the confirmation message explicit and clear? Is the message displayed at the right time?: [Insert Bash Script Code Here]"
+--arg user_content "Provide a full file revised version of the code that aligns with these guidelines. The guidelines: Are all operations followed by confirmation checks? Do the confirmation checks include error handling? Do the confirmation checks validate the intended effect of the operation? When it is about file operations, it's not only to check the file itself but the properties of the file to expose in the message: [Insert Bash Script Code Here]"
 ```
 
 ### References
 
-- [Microsoft's Best Practices for Writing Error Messages](https://docs.microsoft.com/en-us/windows/win32/debug/writing-error-messages)
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ---
 ## Error Numbering
@@ -304,7 +311,7 @@ echo "Error $FILE_NOT_FOUND: File not found."
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the error numbering follows the guidelines: Is each error number unique? Is each error number documented along with its message and possible resolution? Is a consistent numbering scheme used?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on error numbering. Ensure that each error number is unique, documented, and follows a consistent numbering scheme. Provide a revised version of the code that aligns with these guidelines."
@@ -351,7 +358,7 @@ Certainly, Ricardo. Below are the details you requested:
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?: [Insert Bash Script Code Here]
+> Please analyze the code to check if the syntax follows the guidelines: Is the coding style and conventions consistent throughout the script? Are comments used to explain complex or non-intuitive code blocks? Is consistent indentation applied?:
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on syntax. Ensure that the code is consistent in style, well-commented, and uses proper indentation. Provide a revised version of the code that aligns with these guidelines."
@@ -407,7 +414,7 @@ A header is mandatory for every script as it provides essential metadata about t
 ### Automated Verification with AI
 
 > You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: [Insert Bash Script Code Here] 
+> Please analyze the code to check if the header follows the guidelines: Is the header present at the top of the script? Does it include the script name, author, creation date, description, dependencies, and limitations?: 
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on the header section. Ensure that the header is present and includes all mandatory fields like script name, author, creation date, description, dependencies, and limitations. Provide a revised version of the code that aligns with these guidelines."
@@ -447,13 +454,13 @@ HOME_DIR=$(eval echo ~$USER)
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?: [Insert Bash Script Code Here]
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only?
+[Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on agnosticism. Ensure that the code is compatible with both Linux and macOS and adheres to Bash best practices. Provide a full-file revised version of the code that aligns with these guidelines."
 
---arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices Is the script built-in Bash commands only?: [Insert Bash Script Code Here]"
+--arg user_content "Please analyze the code to check if it follows the guidelines for agnosticism: Is the code compatible with both Linux and macOS? Does it adhere to Bash best practices? Is the script built-in Bash commands only? [Insert Bash Script Code Here]"
 ```
 
 ### Reference
@@ -491,11 +498,12 @@ Certainly, Ricardo. Here are the details you requested:
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a full-file revised version of the code that aligns with these guidelines.
+> Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?:
+[Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on preferences. Ensure that preferences are easily configurable and stored in dot files, either at the user level (--global) or at the project level (--local). Provide a full-file revised version of the code that aligns with these guidelines."
 
 --arg user_content "Please analyze the code to check if it follows the guidelines for preferences: Are preferences stored in dot files? Is there an option for both global (--global) and local (--local) preferences?: [Insert Bash Script Code Here]"
 ```
@@ -506,7 +514,7 @@ Certainly, Ricardo. Here are the details you requested:
 
 ---
 
-## Dynalic Matching
+## Regex
 
 ### Reason
 
@@ -534,13 +542,14 @@ Certainly, Ricardo. Below are the details you requested:
 
 ### Automated Verification with AI
 
-> You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines.
-> Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]
+> You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability.
+> Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback.
+> [Insert Bash Script Code Here]
 
 ```bash
---arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability. Provide a revised version of the code that aligns with these guidelines."
+--arg sys_content "You are code fixing script that ensures the inputted code adheres to the specified coding conduct guidelines. Specifically, focus on dynamic matching using regular expressions. Ensure that regular expressions are the priority for dynamic matching for better performance and maintainability."
 
---arg user_content "Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback?: [Insert Bash Script Code Here]"
+--arg user_content "Provide a full-file revised version of the code that aligns with these guidelines. Please analyze the code to check if it follows the guidelines for dynamic matching: Are regular expressions used for dynamic matching? Is grep used only as a fallback. [Insert Bash Script Code Here]"
 ```
 
 ### Reference
