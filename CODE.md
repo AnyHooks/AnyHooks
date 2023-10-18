@@ -97,6 +97,7 @@ done
 4. Is early validation performed for parameter values?
 5. Does the `--local` parameter affect only the project-level settings?
 6. Does the `--global` parameter affect only the user-level settings?
+7. Are (`-d`) and (`--debug`) options available?
 
 ### Automated Verification with AI
 
@@ -108,7 +109,7 @@ done
 > - Is early validation performed for parameter values?
 > - Does the --local parameter affect only the project-level settings? The --local parameter must be optional and it is the default scope.
 > - Does the --global parameter affect only the user-level settings? The --global parameter must be optional.
-> ?:"
+> - Are (`-d`) and (`--debug`) options available? [Insert Bash Script Code Here]"
 
 ```bash
 --arg sys_content "You are tasked with reviewing a Bash Script code to ensure it adheres to the specified coding conduct guidelines. Specifically, focus on parameters, their scope, default values, and validation. Ensure the code readability and maintainability. Provide a revised version of the code that aligns with these guidelines."
@@ -120,7 +121,7 @@ done
 - Is early validation performed for parameter values?
 - Does the --local parameter affect only the project-level settings?
 - Does the --global parameter affect only the user-level settings?
-?: [Insert Bash Script Code Here]"
+- Are (`-d`) and (`--debug`) options available?" [Insert Bash Script Code Here]"
 ```
 
 ### References
