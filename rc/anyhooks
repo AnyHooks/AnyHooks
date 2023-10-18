@@ -44,7 +44,7 @@ create_config_file() {
       echo "Configuration file created successfully."
     else
       echo "Unable to create the configuration file. Please ensure you have write permissions."
-      return 1
+      return 1001
     fi
   else
     echo "Configuration file already exists."
@@ -62,7 +62,7 @@ check_encrypt_key_file() {
       echo "Encrypted API key file successfully created at $ENCRYPTED_FILE."
     else
       echo "Unable to create the encrypted API key file. Please verify your encryption settings."
-      return 1
+      return 1002
     fi
   else
     echo "Encrypted API key file already exists."
@@ -81,11 +81,11 @@ deploy_commit_msg() {
       echo "Script hook commit-msg successfully deployed in $3."
     else
       echo "Unable to deploy the commit message hook. Please check the project directory informed [$3]."
-      return 1
+      return 1003
     fi
   else
     echo "Failed to check or create encrypted API key file."
-    return 1
+    return 1004
   fi
   debug_msg "Exiting deploy_commit_msg function"
 }
@@ -101,7 +101,7 @@ add_hook() {
           echo "Commit message deployed successfully."
         else
           echo "Unable to deploy the commit message. Please review your hook settings."
-          return 1
+          return 1005
         fi
         break
       fi
@@ -120,7 +120,7 @@ encrypt_key() {
     echo "API keys encrypted successfully."
   else
     echo "Unable to encrypt API keys. Please verify your encryption parameters."
-    return 1
+    return 1006
   fi
   debug_msg "Exiting encrypt_key function"
 }
@@ -133,7 +133,7 @@ set_language() {
     echo "Language set successfully."
   else
     echo "Unable to set the language. Please ensure the language is supported."
-    return 1
+    return 1007
   fi
   debug_msg "Exiting set_language function"
 }
@@ -146,7 +146,7 @@ show_version() {
     echo "Version displayed successfully."
   else
     echo "Unable to display the version. Please check your version settings."
-    return 1
+    return 1008
   fi
   debug_msg "Exiting show_version function"
 }
@@ -184,7 +184,7 @@ main() {
     esac
   else
     echo "Failed to create or check configuration file."
-    return 1
+    return 1009
   fi
   debug_msg "Exiting main function"
 }
