@@ -3,13 +3,14 @@
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Generates .anyhooksopenai.enc file for storing OpenAI API Key
-# Dependencies: curl, openssl
+# Dependencies: curl, openssl, rc/anyhooksdisplaymsg
 
 # OS-agnostic home directory
 HOME_DIR=$(eval echo ~$USER)
 
 # Determine the target directory based on the flag
 TARGET_DIR=""
+
 case "$1" in
     config)
         case "$2" in
@@ -18,25 +19,32 @@ case "$1" in
                 ;;
             --local)
                 # Get the project directory using Git setup info
-                PROJECT_DIR=$(cd $3 && git rev-parse --show-toplevel)
-                TARGET_DIR=$PROJECT_DIR
+                GIT_PROJECT_DIRECTORY=$(cd $3 && git rev-parse --show-toplevel)
+                if [ $? -eq 0 ]; then
+                    display_log_message "Git Project directory found [$GIT_PROJECT_DIRECTORY]"
+                else
+                    display_error_message 'rc/anyhooksencrypt Unable to find the .git directory by $(cd $3 && git rev-parse --show-toplevel)'
+                    exit 1002
+                fi
+                TARGET_DIR=$GIT_PROJECT_DIRECTORY
                 ;;
             *)
-                echo "Warning: Flag not found. Use --global for user level or --local for project level."
+                display_warning_message "Flag not found. Use --global for user level or --local for project level."
                 # Get the project directory using Git setup info
-                PROJECT_DIR=$(cd $2 && git rev-parse --show-toplevel)
+                GIT_PROJECT_DIRECTORY=$(cd $2 && git rev-parse --show-toplevel)
                 TARGET_DIR=$HOME_DIR #default dir
                 ;;
         esac
         ;;
     *)
-        echo "Error: Invalid command. Use 'config' followed by --global or --local."
+        display_error_message "rc/anyhooksencrypt Invalid command. Use 'config' followed by --global or --local."
         exit 1
         ;;
 esac
 
 # Function to configure OpenAI API Key
 configure_openai_api_key() {
+    display_debug_message "rc/anyhooksencrypt Entering configure_openai_api_key function"
     echo "Please enter your OpenAI API key:"
     read -s API_KEY
 
@@ -48,20 +56,21 @@ configure_openai_api_key() {
         if [ "$API_TEST" -eq 200 ]; then
             break
         else
-            echo "Invalid API Key. You have $((max_retries - retry_count)) attempts left."
+            display_error_message "rc/anyhooksencrypt Invalid API Key. You have $((max_retries - retry_count)) attempts left."
             read -s -p "Please re-enter your OpenAI API key: " API_KEY
             ((retry_count++))
         fi
     done
 
     if [ $retry_count -eq $max_retries ]; then
-        echo "Error: Max retries reached for API Key validation."
+        display_error_message "rc/anyhooksencrypt Max retries reached for API Key validation."
         exit 1
     fi
 
     PASSPHRASE=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
 
     echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out "$TARGET_DIR/.anyhooksopenai.enc" -pass pass:$PASSPHRASE
+    display_debug_message "rc/anyhooksencrypt Exiting configure_openai_api_key function"
 }
 
 configure_openai_api_key

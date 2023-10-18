@@ -3,10 +3,9 @@
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
+# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver, rc/anyhooksdisplaymsg
 
-# Defines the debug state for this script
-IS_DEBUG_MODE=false
+source anyhooksdisplaymsg
 
 # Defines the scope for the current task
 SCOPE="global"
@@ -14,19 +13,16 @@ SCOPE="global"
 # OS-agnostic home directory
 USER_HOME_DIR=$(eval echo ~$USER)
 
-# Debug function
-display_debug_message() {
-  [ ${IS_DEBUG_MODE} = true ] && echo "Debug: $1"
-}
+PROJECT_DIR=""
 
 # Function to create the configuration file if it doesn't exist
 create_configuration_file() {
   display_debug_message "Entering create_configuration_file function"
   # the default if not informed
   CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc"
-  case "$1" in
-    "--global"|"-g") CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc" ;;
-    "--local"|"-l") CONFIGURATION_FILE_PATH="$3/.anyhooksrc" ;;
+  case "$SCOPE" in
+    "global") CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc" ;;
+    "local") CONFIGURATION_FILE_PATH="$PROJECT_DIR/.anyhooksrc" ;;
   esac
   if [ ! -f "$CONFIGURATION_FILE_PATH" ]; then
     echo "#!/bin/bash" > "$CONFIGURATION_FILE_PATH" && \
@@ -40,13 +36,13 @@ create_configuration_file() {
     echo "OPENAI_SYSTEM_CONTENT=\"You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language.\"" >> "$CONFIGURATION_FILE_PATH" && \
     echo "OPENAI_USER_CONTENT=\"Based on the following git diff output, identify and describe the changes to define the commit message.\"" >> "$CONFIGURATION_FILE_PATH"
     if [ $? -eq 0 ]; then
-      echo "Configuration file created successfully."
+      display_log_message "Configuration file created successfully."
     else
-      echo "Unable to create the configuration file. Please ensure you have write permissions."
+      display_error_message "Unable to create the configuration file. Please ensure you have write permissions. Path [$CONFIGURATION_FILE_PATH]"
       return 1001
     fi
   else
-    echo "Configuration file already exists."
+    display_warning_message "Configuration file already exists."
   fi
   display_debug_message "Exiting create_configuration_file function"
 }
@@ -55,16 +51,19 @@ create_configuration_file() {
 check_encrypt_key_file() {
   display_debug_message "Entering check_encrypt_key_file function"
   ENCRYPTED_FILE="${USER_HOME_DIR}/.anyhooksopenapi.enc"
+  display_debug_message "Confirming file [$ENCRYPTED_FILE]"
   if [ ! -f "$ENCRYPTED_FILE" ]; then
+    display_debug_message "Project directory informed [$PROJECT_DIR] before encrypt_key function call"
     encrypt_key
     if [ $? -eq 0 ]; then
-      echo "Encrypted API key file successfully created at $ENCRYPTED_FILE."
+      display_debug_message "Project directory informed [$PROJECT_DIR] after encrypt_key function call"
+      display_log_message "Encrypted API key file successfully created at $ENCRYPTED_FILE."
     else
-      echo "Unable to create the encrypted API key file. Please verify your encryption settings."
+      display_error_message "Unable to create the encrypted API key file. Please verify your encryption settings."
       return 1002
     fi
   else
-    echo "Encrypted API key file already exists."
+    display_warning_message "Encrypted API key file already exists."
   fi
   display_debug_message "Exiting check_encrypt_key_file function"
 }
@@ -72,18 +71,33 @@ check_encrypt_key_file() {
 # Function to deploy commit message
 deploy_commit_msg() {
   display_debug_message "Entering deploy_commit_msg function"
+  display_debug_message "Project directory informed [$PROJECT_DIR]"
   check_encrypt_key_file
   if [ $? -eq 0 ]; then
+    display_debug_message "Project directory informed [$PROJECT_DIR] after check_encrypt_key_file"
     SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-    cp "${SCRIPT_DIR}/commit-msg" "$3/.git/hooks/"
+    display_debug_message "Script directory retrieved [$SCRIPT_DIR]."
+    if [ ! -d "${SCRIPT_DIR}" ]; then
+      display_error_message "Invalid script directory: $SCRIPT_DIR"
+      return 1014
+    fi
+    if [ ! -f "${SCRIPT_DIR}/commit-msg" ]; then
+      display_error_message "File not found: ${SCRIPT_DIR}/commit-msg"
+      return 1014
+    fi
+    if [ ! -d "${PROJECT_DIR}/.git/hooks/" ]; then
+      display_error_message "Project directory not found: ${PROJECT_DIR}/.git/hooks/"
+      return 1014
+    fi
+    cp "${SCRIPT_DIR}/commit-msg" "${PROJECT_DIR}/.git/hooks/"
     if [ $? -eq 0 ]; then
-      echo "Script hook commit-msg successfully deployed in $3."
+      display_log_message "Script hook commit-msg successfully deployed in $PROJECT_DIR."
     else
-      echo "Unable to deploy the commit message hook. Please check the project directory informed [$3]."
+      display_error_message "Unable to deploy the commit message hook. Please check the project directory informed [$PROJECT_DIR]."
       return 1003
     fi
   else
-    echo "Failed to check or create encrypted API key file."
+    display_error_message "Failed to check or create encrypted API key file."
     return 1004
   fi
   display_debug_message "Exiting deploy_commit_msg function"
@@ -94,16 +108,15 @@ undeploy_commit_msg() {
   display_debug_message "Entering undeploy_commit_msg function"
   check_encrypt_key_file
   if [ $? -eq 0 ]; then
-    SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-    mv "$3/.git/hooks/commit-msg" "$3/.git/hooks/commit-msg.removed"
+    mv "$PROJECT_DIR/.git/hooks/commit-msg" "$PROJECT_DIR/.git/hooks/commit-msg.removed"
     if [ $? -eq 0 ]; then
-      echo "Script hook commit-msg successfully undeployed in $3."
+      display_log_message "Script hook commit-msg successfully undeployed in $PROJECT_DIR."
     else
-      echo "Unable to undeploy the commit message hook. Please check the project directory informed [$3]."
+      display_error_message "Unable to undeploy the commit message hook. Please check the project directory informed [$PROJECT_DIR]."
       return 1005
     fi
   else
-    echo "Failed to check or create encrypted API key file."
+    display_error_message "Failed to check or create encrypted API key file."
     return 1006
   fi
   display_debug_message "Exiting undeploy_commit_msg function"
@@ -112,21 +125,17 @@ undeploy_commit_msg() {
 # Function to add hooks to the project
 add_hook() {
   display_debug_message "Entering add_hook function"
-  if [[ "$1" =~ "-hook" ]]; then
-    for arg in "$@"; do
-      if [[ "$arg" =~ "commit-msg" ]]; then
-        deploy_commit_msg $@
-        if [ $? -eq 0 ]; then
-          echo "Commit message deployed successfully."
-        else
-          echo "Unable to deploy the commit message. Please review your hook settings."
-          return 1007
-        fi
-        break
-      fi
-    done
+  if [[ "$HOOK_SCRIPT" =~ "commit-msg" ]]; then
+    deploy_commit_msg 
+    if [ $? -eq 0 ]; then
+      display_log_message "Commit message deployed successfully."
+    else
+      display_error_message "Unable to deploy the commit message. Please review your hook settings."
+      return 1007
+    fi
   else
-    echo "Invalid command."
+    display_error_message "Invalid command. [$HOOK_SCRIPT]"
+    return 1008
   fi
   display_debug_message "Exiting add_hook function"
 }
@@ -134,21 +143,17 @@ add_hook() {
 # Function to remove hooks from the project
 remove_hook() {
   display_debug_message "Entering remove_hook function"
-  if [[ "$1" =~ "-hook" ]]; then
-    for arg in "$@"; do
-      if [[ "$arg" =~ "commit-msg" ]]; then
-        undeploy_commit_msg $@
-        if [ $? -eq 0 ]; then
-          echo "Commit message undeployed successfully."
-        else
-          echo "Unable to undeploy the commit message. Please review your hook settings."
-          return 1008
-        fi
-        break
-      fi
-    done
+  if [[ "$HOOK_SCRIPT" =~ "commit-msg" ]]; then
+    undeploy_commit_msg 
+    if [ $? -eq 0 ]; then
+      display_log_message "Commit message undeployed successfully."
+    else
+      display_error_message "Unable to undeploy the commit message. Please review your hook settings."
+      return 1008
+    fi
   else
-    echo "Invalid command."
+    display_error_message "Invalid command. [$HOOK_SCRIPT]"
+    return 1008
   fi
   display_debug_message "Exiting remove_hook function"
 }
@@ -156,11 +161,12 @@ remove_hook() {
 # Function to encrypt API keys
 encrypt_key() {
   display_debug_message "Entering encrypt_key function"
+  display_debug_message "Project directory informed [$PROJECT_DIR] before . anyhooksencrypt config $@"
   . "anyhooksencrypt" "config" $@
   if [ $? -eq 0 ]; then
-    echo "API keys encrypted successfully."
+    display_log_message "API keys encrypted successfully."
   else
-    echo "Unable to encrypt API keys. Please verify your encryption parameters."
+    display_error_message "Unable to encrypt API keys. Please verify your encryption parameters."
     return 1009
   fi
   display_debug_message "Exiting encrypt_key function"
@@ -171,9 +177,9 @@ set_language() {
   display_debug_message "Entering set_language function"
   . "anyhookslang" $@
   if [ $? -eq 0 ]; then
-    echo "Language set successfully."
+    display_log_message "Language set successfully."
   else
-    echo "Unable to set the language. Please ensure the language is supported."
+    display_error_message "Unable to set the language. Please ensure the language is supported."
     return 1010
   fi
   display_debug_message "Exiting set_language function"
@@ -184,67 +190,128 @@ show_version() {
   display_debug_message "Entering show_version function"
   . "anyhooksver"
   if [ $? -eq 0 ]; then
-    echo "Version displayed successfully."
+    display_log_message "Version displayed successfully."
   else
-    echo "Unable to display the version. Please check your version settings."
+    display_error_message "Unable to display the version. Please check your version settings."
     return 1011
   fi
   display_debug_message "Exiting show_version function"
 }
 
 # Main function to handle parameters
-main() {
-  display_debug_message "Entering main function"
+retrieve_parameters() {
+  display_debug_message "Entering retrieve_parameters function"
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case $key in
+        "-a" | "--add")
+          ACTION="$1"
+          HOOK_SCRIPT="$2"
+          HOOK=true
+          shift
+          shift
+          display_debug_message "--add) Taken parameters: [ACTION=$ACTION, HOOK_SCRIPT=$HOOK_SCRIPT] then shift shift ($@)"
+          ;;
+        "-d" | "--debug")
+          IS_DEBUG_MODE=true
+          shift
+          display_debug_message "--debug) Taken parameters: [IS_DEBUG_MODE=$IS_DEBUG_MODE] then shift ($@)"
+          ;;
+        "-g" | "--global")
+          SCOPE="$1"
+          shift
+          display_debug_message "--global) Taken parameters: [SCOPE=$SCOPE] then shift ($@)"
+          ;;
+        "-l" | "--local")
+          SCOPE="$1"
+          shift
+          display_debug_message "--global) Taken parameters: [SCOPE=$SCOPE] then shift ($@)"
+          ;;
+        "-p" | "--project")
+          PROJECT_DIR="$2"
+          shift
+          shift
+          display_debug_message "--project) Taken parameters: [PROJECT_DIR $PROJECT_DIR] then shift shift ($@)"
+          ;;
+        "r" | "--remove")
+          ACTION="$1"
+          HOOK_SCRIPT="$2"
+          HOOK=true
+          remove_hook
+          shift
+          shift
+          display_debug_message "--remove) Taken parameters: [ACTION=$ACTION, HOOK_SCRIPT=$HOOK_SCRIPT] then shift shift ($@)"
+          ;;
+        "-v" | "--version")
+          shift
+          display_debug_message "--version) Taken parameters: [$key] then shift ($@)"
+          ;;
+        *)
+          display_error_message "Invalid command. [$key]"
+          return 1012
+          ;;
+      esac
+    done 
+  display_debug_message "Exiting retrieve_parameters function"
+}
+
+validate_parameters() {
+  display_debug_message "Entering validate_parameters function"
+    # Validate scope
+    if [ "$SCOPE" != "local" ] && [ "$SCOPE" != "global" ]; then
+      display_error_message "Invalid scope: $SCOPE"
+      exit 1013
+    fi
+    display_debug_message "Scope: $SCOPE"
+    # Validate project path
+    if [ ! -d "${PROJECT_DIR}/.git/hooks" ]; then
+      display_error_message "Invalid project directory: $PROJECT_DIR"
+      exit 1014
+    fi
+    display_debug_message "Project directory: $PROJECT_DIR"
+    # Validate scope
+    if [ $HOOK == true ] && [ "$HOOK_SCRIPT" != "commit-msg" ]; then
+      display_error_message "Invalid hook script: $HOOK_SCRIPT"
+      exit 1015
+    fi
+    display_debug_message "Hook script: $HOOK_SCRIPT"
+  display_debug_message "Exiting validate_parameters function"
+}
+
+run_functions() {
+  display_debug_message "Entering run_functions function"
   create_configuration_file  # Create the configuration file if it doesn't exist
   if [ $? -eq 0 ]; then
-    case $1 in
-      "add")
-        shift
-        add_hook "$@"
+    case $ACTION in
+      "-a" | "--add")
+        HOOK=true
+        HOOK_SCRIPT="$2"
+        add_hook
         ;;
-      "config")
-        shift
-        create_configuration_file "$@"
+      "r" | "--remove")
+        HOOK=true
+        HOOK_SCRIPT="$1"
+        remove_hook
         ;;
-      "-d" | "--debug")
-        shift
-        IS_DEBUG_MODE=true
-        ;;
-      "encrypt")
-        encrypt_key $2 $3 $4
-        ;;
-      "-g" | "--global")
-        SCOPE="global"
-        ;;
-      "-l" | "--local")
-        SCOPE="local"
-        ;;
-      "language")
-        set_language $2 $3
-        ;;
-      "remove")
-        shift
-        remove_hook "$@"
-        ;;
-      "--version")
+      "-v" | "--version")
         show_version
         ;;
       *)
-        echo "Invalid command."
+        display_error_message "Invalid command. [$ACTION]"
+        exit 1016
         ;;
     esac
-    # Validate scope
-    if [ "$scope" != "local" ] && [ "$scope" != "global" ]; then
-      echo "Invalid scope: $scope"
-      return 1
-    fi
-    display_debug_message "Scope: $SCOPE"
   else
-    echo "Failed to create or check configuration file."
-    return 1012
+    display_error_message "Failed to create or check configuration file."
+    return 1014
   fi
-  display_debug_message "Exiting main function"
+  display_debug_message "Exiting run_functions function"
 }
 
-# Call main with all command line arguments
-main "$@"
+# Call retrieve_parameters with all command line arguments
+retrieve_parameters "$@"
+# Call validate_parameters 
+validate_parameters
+# Call run_functions with all command line arguments
+run_functions "$@"
+
