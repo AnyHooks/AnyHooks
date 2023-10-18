@@ -6,40 +6,40 @@
 # Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
 
 # Defines the debug state for this script
-DEBUG=false
+IS_DEBUG_MODE=false
 
 # OS-agnostic home directory
-HOME_DIR=$(eval echo ~$USER)
+USER_HOME_DIR=$(eval echo ~$USER)
 
 # Debug function
-debug_msg() {
-  if [ $DEBUG == true ]; then
+display_debug_message() {
+  if [ ${IS_DEBUG_MODE} == true ]; then
     echo "Debug: $1"
   fi
 }
 
 # Function to create the configuration file if it doesn't exist
-create_config_file() {
-  debug_msg "Entering create_config_file function"
+create_configuration_file() {
+  display_debug_message "Entering create_configuration_file function"
   # the default if not informed
-  CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+  CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc"
   if [[ "$1" =~ "--global|-g" ]]; then
-    CONFIG_FILE="$HOME_DIR/.anyhooksrc"
+    CONFIGURATION_FILE_PATH="${USER_HOME_DIR}/.anyhooksrc"
   fi
   if [[ "$1" =~ "--local|-l" ]]; then
-    CONFIG_FILE="$3/.anyhooksrc"
+    CONFIGURATION_FILE_PATH="$3/.anyhooksrc"
   fi
-  if [ ! -f "$CONFIG_FILE" ]; then
-    echo "#!/bin/bash" > "$CONFIG_FILE" && \
-    echo "# Resource: rc/.anyhooksrc" >> "$CONFIG_FILE" && \
-    echo "# " >> "$CONFIG_FILE" && \
-    echo "# The default language is English or you can define any other " >> "$CONFIG_FILE" && \
-    echo "#   language name in English, for example Portuguese, " >> "$CONFIG_FILE" && \
-    echo "#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.'" >> "$CONFIG_FILE" && \
-    echo "# " >> "$CONFIG_FILE" && \
-    echo "PREF_LANGUAGE=English" >> "$CONFIG_FILE" && \
-    echo "OPENAI_SYSTEM_CONTENT=\"You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language.\"" >> "$CONFIG_FILE" && \
-    echo "OPENAI_USER_CONTENT=\"Based on the following git diff output, identify and describe the changes to define the commit message.\"" >> "$CONFIG_FILE"
+  if [ ! -f "$CONFIGURATION_FILE_PATH" ]; then
+    echo "#!/bin/bash" > "$CONFIGURATION_FILE_PATH" && \
+    echo "# Resource: rc/.anyhooksrc" >> "$CONFIGURATION_FILE_PATH" && \
+    echo "# " >> "$CONFIGURATION_FILE_PATH" && \
+    echo "# The default language is English or you can define any other " >> "$CONFIGURATION_FILE_PATH" && \
+    echo "#   language name in English, for example Portuguese, " >> "$CONFIGURATION_FILE_PATH" && \
+    echo "#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.'" >> "$CONFIGURATION_FILE_PATH" && \
+    echo "# " >> "$CONFIGURATION_FILE_PATH" && \
+    echo "PREF_LANGUAGE=English" >> "$CONFIGURATION_FILE_PATH" && \
+    echo "OPENAI_SYSTEM_CONTENT=\"You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language.\"" >> "$CONFIGURATION_FILE_PATH" && \
+    echo "OPENAI_USER_CONTENT=\"Based on the following git diff output, identify and describe the changes to define the commit message.\"" >> "$CONFIGURATION_FILE_PATH"
     if [ $? -eq 0 ]; then
       echo "Configuration file created successfully."
     else
@@ -49,13 +49,13 @@ create_config_file() {
   else
     echo "Configuration file already exists."
   fi
-  debug_msg "Exiting create_config_file function"
+  display_debug_message "Exiting create_configuration_file function"
 }
 
 # Function to check and encrypt API key file if it doesn't exist
 check_encrypt_key_file() {
-  debug_msg "Entering check_encrypt_key_file function"
-  ENCRYPTED_FILE="$HOME_DIR/.anyhooksopenapi.enc"
+  display_debug_message "Entering check_encrypt_key_file function"
+  ENCRYPTED_FILE="${USER_HOME_DIR}/.anyhooksopenapi.enc"
   if [ ! -f "$ENCRYPTED_FILE" ]; then
     encrypt_key
     if [ $? -eq 0 ]; then
@@ -67,12 +67,12 @@ check_encrypt_key_file() {
   else
     echo "Encrypted API key file already exists."
   fi
-  debug_msg "Exiting check_encrypt_key_file function"
+  display_debug_message "Exiting check_encrypt_key_file function"
 }
 
 # Function to deploy commit message
 deploy_commit_msg() {
-  debug_msg "Entering deploy_commit_msg function"
+  display_debug_message "Entering deploy_commit_msg function"
   check_encrypt_key_file
   if [ $? -eq 0 ]; then
     SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -87,12 +87,12 @@ deploy_commit_msg() {
     echo "Failed to check or create encrypted API key file."
     return 1004
   fi
-  debug_msg "Exiting deploy_commit_msg function"
+  display_debug_message "Exiting deploy_commit_msg function"
 }
 
 # Function to add hooks to the project
 add_hook() {
-  debug_msg "Entering add_hook function"
+  display_debug_message "Entering add_hook function"
   if [[ "$1" =~ "-hook" ]]; then
     for arg in "$@"; do
       if [[ "$arg" =~ "--msg|--message" ]]; then
@@ -109,12 +109,12 @@ add_hook() {
   else
     echo "Invalid command."
   fi
-  debug_msg "Exiting add_hook function"
+  display_debug_message "Exiting add_hook function"
 }
 
 # Function to encrypt API keys
 encrypt_key() {
-  debug_msg "Entering encrypt_key function"
+  display_debug_message "Entering encrypt_key function"
   . "anyhooksencrypt" "config" $@
   if [ $? -eq 0 ]; then
     echo "API keys encrypted successfully."
@@ -122,12 +122,12 @@ encrypt_key() {
     echo "Unable to encrypt API keys. Please verify your encryption parameters."
     return 1006
   fi
-  debug_msg "Exiting encrypt_key function"
+  display_debug_message "Exiting encrypt_key function"
 }
 
 # Function to set language
 set_language() {
-  debug_msg "Entering set_language function"
+  display_debug_message "Entering set_language function"
   . "anyhookslang" $@
   if [ $? -eq 0 ]; then
     echo "Language set successfully."
@@ -135,12 +135,12 @@ set_language() {
     echo "Unable to set the language. Please ensure the language is supported."
     return 1007
   fi
-  debug_msg "Exiting set_language function"
+  display_debug_message "Exiting set_language function"
 }
 
 # Function to show version
 show_version() {
-  debug_msg "Entering show_version function"
+  display_debug_message "Entering show_version function"
   . "anyhooksver"
   if [ $? -eq 0 ]; then
     echo "Version displayed successfully."
@@ -148,13 +148,13 @@ show_version() {
     echo "Unable to display the version. Please check your version settings."
     return 1008
   fi
-  debug_msg "Exiting show_version function"
+  display_debug_message "Exiting show_version function"
 }
 
 # Main function to handle parameters
 main() {
-  debug_msg "Entering main function"
-  create_config_file  # Create the configuration file if it doesn't exist
+  display_debug_message "Entering main function"
+  create_configuration_file  # Create the configuration file if it doesn't exist
   if [ $? -eq 0 ]; then
     case $1 in
       "add")
@@ -163,11 +163,11 @@ main() {
         ;;
       "config")
         shift
-        create_config_file "$@"
+        create_configuration_file "$@"
         ;;
       "-d" | "--debug")
         shift
-        DEBUG=true
+        IS_DEBUG_MODE=true
         ;;
       "encrypt")
         encrypt_key $2 $3 $4
@@ -186,7 +186,7 @@ main() {
     echo "Failed to create or check configuration file."
     return 1009
   fi
-  debug_msg "Exiting main function"
+  display_debug_message "Exiting main function"
 }
 
 # Call main with all command line arguments
