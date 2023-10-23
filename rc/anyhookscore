@@ -6,151 +6,144 @@
 # Dependencies: bash
 
 # Debug function
-display_debug_message() {
+echoDebugMsg() {
   [ "$1" = true ] && shift && echo "🐛 Debug: $@"
 }
 # Error function
-display_error_message() {
+echoErrorMsg() {
   echo "❌ Error: $@"
   exit 9999
 }
 # Log function
-display_log_message() {
+echoLogMsg() {
   echo "ℹ️  Info: $@"
 }
 # Warning function
-display_warning_message() {
+echoWarningMsg() {
   echo "⚠️  Warning: $@"
-}
-# prompt function
-display_prompt() {
-  echo "❓ $@"
-  local user_input=""
-  read -s ${user_input}
-  echo "${user_input}"
 }
 
 validateRequiredString() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   local string_to_check="$1"
   local error_message_append="$2"
   if [ ! -z "$string_to_check" ]; then
-    display_debug_message "String $string_to_check found!"
+    echoDebugMsg "String $string_to_check found!"
     return 0
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "String $string_to_check not found, $error_message_append!"
+      echoErrorMsg "String $string_to_check not found, $error_message_append!"
     else
-      display_error_message "String $string_to_check not found!"
+      echoErrorMsg "String $string_to_check not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validateRequiredFileExistence() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   validateRequiredString "$1 param at ${FUNCNAME[0]} ${@}"
   local file_to_check="$1"
   local error_message_append="$2"
   if [ -f "$file_to_check" ]; then
-    display_debug_message "File $file_to_check found at ${FUNCNAME[0]}."
+    echoDebugMsg "File $file_to_check found at ${FUNCNAME[0]}."
     return 0
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "File $string_to_check not found, $error_message_append!"
+      echoErrorMsg "File $string_to_check not found, $error_message_append!"
     else
-      display_error_message "File $string_to_check not found!"
+      echoErrorMsg "File $string_to_check not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validateFileExecutable() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   validateRequiredFileExistence "$1" " param at ${FUNCNAME[0]} ${@}"
   local file_to_check="$1"
   local error_message_append="$2"
   if [ -x "$file_to_check" ]; then
-    display_debug_message "File $file_to_check found at ${FUNCNAME[0]}."    
+    echoDebugMsg "File $file_to_check found at ${FUNCNAME[0]}."    
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "File $string_to_check not found, $error_message_append!"
+      echoErrorMsg "File $string_to_check not found, $error_message_append!"
       return 0
     else
-      display_error_message "File $string_to_check not found!"
+      echoErrorMsg "File $string_to_check not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validateFileReadable() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   validateRequiredFileExistence "$1" "1 param at ${FUNCNAME[0]} ${@}"
   local file_to_check="$1"
   local error_message_append="$2"
   if [ -r "$file_to_check" ]; then
-    display_debug_message "File $file_to_check found at ${FUNCNAME[0]}."
+    echoDebugMsg "File $file_to_check found at ${FUNCNAME[0]}."
     return 0
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "File $string_to_check not found, $error_message_append!"
+      echoErrorMsg "File $string_to_check not found, $error_message_append!"
     else
-      display_error_message "File $string_to_check not found!"
+      echoErrorMsg "File $string_to_check not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validateFileWritable() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   validateRequiredFileExistence "$1" "1 param at ${FUNCNAME[0]} ${@}"
   local file_to_check="$1"
   local error_message_append="$2"
   if [ -w "$file_to_check" ]; then
-    display_debug_message "File $file_to_check found."
+    echoDebugMsg "File $file_to_check found."
     return 0
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "File $string_to_check not found, $error_message_append!"
+      echoErrorMsg "File $string_to_check not found, $error_message_append!"
     else
-      display_error_message "File $string_to_check not found!"
+      echoErrorMsg "File $string_to_check not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validateRequiredDirectoryExistence() { 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   local path_to_check="$1"
   local error_message_append="$2"
   if [ -d "${path_to_check}" ]; then
-    display_debug_message "Directory ${path_to_check} found."
+    echoDebugMsg "Directory ${path_to_check} found."
     return 0
   else
     if [ -z "$error_message_append" ]; then
-      display_error_message "Directory ${string_to_check} not found, ${error_message_append}!"
+      echoErrorMsg "Directory ${string_to_check} not found, ${error_message_append}!"
     else
-      display_error_message "Directory ${string_to_check} not found!"
+      echoErrorMsg "Directory ${string_to_check} not found!"
     fi
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 getUserHomeDir() {
   echo "$(eval echo ~$USER)"
 }
 
-# if declare -F display_debug_message > /dev/null; then
-#     echo -e "\ndisplay_debug_message exists.\n"
+# if declare -F echoDebugMsg > /dev/null; then
+#     echo -e "\nechoDebugMsg exists.\n"
 # else
-#     echo -e "\ndisplay_debug_message does not exist.\n"
+#     echo -e "\nechoDebugMsg does not exist.\n"
 # fi
 
 # # Loading Debug function
-# display_debug_message true "Loading Debug function"
+# echoDebugMsg true "Loading Debug function"
 # # Loading Error function
-# display_error_message "Loading Error function"
+# echoErrorMsg "Loading Error function"
 # # Loading Log function
-# display_log_message "Loading Log function"
+# echoLogMsg "Loading Log function"
 # # Loading Warning function
-# display_warning_message "Loading Warning function"
+# echoWarningMsg "Loading Warning function"

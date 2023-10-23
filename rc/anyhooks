@@ -15,37 +15,35 @@ source "${PWD}/anyhooksver"
 create_configuration_file() {
   local scope="$1"
   local project_dir="$2"
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   # the default if not informed
-  local configuration_file_path=""
+  local anyhooksrc_file=""
   case "$scope" in
-    "-g" | "--global") configuration_file_path="${USER_HOME_DIR}/.anyhooksrc" ;;
-    "-l" | "--local") configuration_file_path="$project_dir/.anyhooksrc" ;;
+    "-g" | "--global") anyhooksrc_file="$(getUserHomeDir)/.anyhooksrc" ;;
+    "-l" | "--local") anyhooksrc_file="${project_dir}/.anyhooksrc" ;;
     *) 
-    display_error_message "Invalid scope [$1]"
-    exit 1000 ;;
+    echoErrorMsg "Invalid scope $1"
   esac
-  if [ ! -f "${configuration_file_path}" ]; then
-    echo '#!/bin/bash' > "${configuration_file_path}" && \
-    echo '# Resource: rc/.anyhooksrc' >> "${configuration_file_path}" && \
-    echo '# ' >> "${configuration_file_path}" && \
-    echo '# The default language is English or you can define any other ' >> "${configuration_file_path}" && \
-    echo '#   language name in English, for example Portuguese, ' >> "${configuration_file_path}" && \
-    echo '#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.' >> "${configuration_file_path}" && \
-    echo '# ' >> "${configuration_file_path}" && \
-    echo 'PREF_LANGUAGE=English' >> "${configuration_file_path}" && \
-    echo 'OPENAI_SYSTEM_CONTENT="You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language."' >> "${configuration_file_path}" && \
-    echo 'OPENAI_USER_CONTENT="Based on the following git diff output, identify and describe the changes to define the commit message."' >> "${configuration_file_path}"
+  if [ ! -f "${anyhooksrc_file}" ]; then
+    echo '#!/bin/bash' > "${anyhooksrc_file}" && \
+    echo '# Resource: rc/.anyhooksrc' >> "${anyhooksrc_file}" && \
+    echo '# ' >> "${anyhooksrc_file}" && \
+    echo '# The default language is English or you can define any other ' >> "${anyhooksrc_file}" && \
+    echo '#   language name in English, for example Portuguese, ' >> "${anyhooksrc_file}" && \
+    echo '#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.' >> "${anyhooksrc_file}" && \
+    echo '# ' >> "${anyhooksrc_file}" && \
+    echo 'PREF_LANGUAGE=English' >> "${anyhooksrc_file}" && \
+    echo 'OPENAI_SYSTEM_CONTENT="You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language."' >> "${anyhooksrc_file}" && \
+    echo 'OPENAI_USER_CONTENT="Based on the following git diff output, identify and describe the changes to define the commit message."' >> "${anyhooksrc_file}"
     if [ $? -eq 0 ]; then
-      display_log_message "Configuration file created successfully."
+      echoLogMsg "Configuration file created successfully."
     else
-      display_error_message "Unable to create the configuration file. Please ensure you have write permissions. Path ${configuration_file_path}"
-      return 1001
+      echoErrorMsg "Unable to create the configuration file. Please ensure you have write permissions. Path ${anyhooksrc_file}"
     fi
   else
-    display_warning_message "Configuration file already exists."
+    echoWarningMsg "Configuration file already exists."
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 # Defines the debug state for this script, the flag come from --debug
@@ -54,17 +52,12 @@ ANYHOOKS_DEBUG_MODE=false
 # Defines the scope for the current task
 SCOPE='--global'
 
-# OS-agnostic home directory
-USER_HOME_DIR=$(eval echo ~$USER)
-
 PROJECT_DIR=""
 
 # Function to handle the --debug parameter
 handle_debug_parameter() {
-  display_debug_message true "Entering ${FUNCNAME[0]} ${@}"
     while [[ $# -gt 0 ]]; do
         key="$1"
-        display_debug_message true "Checking param: ${key}"
         if [[ "$key" == '-d' ]] || [[ "$key" == '--debug' ]]; then
             ANYHOOKS_DEBUG_MODE=true
             break
@@ -73,43 +66,43 @@ handle_debug_parameter() {
             shift
         fi
     done
-    display_debug_message true "Debug mode is: ${ANYHOOKS_DEBUG_MODE}"
+    echoDebugMsg true "Debug mode is: ${ANYHOOKS_DEBUG_MODE}"
 }
 
 # Main function to handle parameters
 retrieve_parameters() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
     while [[ $# -gt 0 ]]; do
       key="$1"
-      display_debug_message ${ANYHOOKS_DEBUG_MODE} "Checking param: $key"
+      echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Checking param: $key"
       case $key in
         '-a' | '--add')
-          display_debug_message ${ANYHOOKS_DEBUG_MODE} 'add Taken parameters then shift shift'
+          echoDebugMsg ${ANYHOOKS_DEBUG_MODE} 'add Taken parameters then shift shift'
           ACTION="$1"
           HOOK_SCRIPT="$2"
           shift
           shift
           ;;
         '-l' | '--local' | '-g' | '--global')
-          display_debug_message ${ANYHOOKS_DEBUG_MODE} 'scope Taken parameters then shift'
+          echoDebugMsg ${ANYHOOKS_DEBUG_MODE} 'scope Taken parameters then shift'
           SCOPE="$1"
           shift
           ;;
         '-p' | '--project')
-          display_debug_message ${ANYHOOKS_DEBUG_MODE} 'project Taken parameters then shift shift'
+          echoDebugMsg ${ANYHOOKS_DEBUG_MODE} 'project Taken parameters then shift shift'
           PROJECT_DIR="$2"
           shift
           shift
           ;;
         '-r' | '--remove')
-          display_debug_message ${ANYHOOKS_DEBUG_MODE} 'remove Taken parameters then shift shift'
+          echoDebugMsg ${ANYHOOKS_DEBUG_MODE} 'remove Taken parameters then shift shift'
           ACTION="$1"
           HOOK_SCRIPT="$2"
           shift
           shift
           ;;
         '-v' | '--version')
-          display_debug_message ${ANYHOOKS_DEBUG_MODE} 'version Taken parameters then shift'
+          echoDebugMsg ${ANYHOOKS_DEBUG_MODE} 'version Taken parameters then shift'
           ACTION="$1"
           shift
           ;;
@@ -118,26 +111,26 @@ retrieve_parameters() {
           ;;
       esac
     done 
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 validate_parameters() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   validateRequiredString "${SCOPE}"
   if [[ "${ACTION}" =~ (-a|--add|-r|--remove) ]]; then
     validateRequiredString "${HOOK_SCRIPT}"
     if [ "${HOOK_SCRIPT}" != 'commit-msg' ]; then
-      display_error_message "Invalid hook script: ${HOOK_SCRIPT}"
+      echoErrorMsg "Invalid hook script: ${HOOK_SCRIPT}"
     fi
     validateRequiredDirectoryExistence "${PROJECT_DIR}"
     validateRequiredDirectoryExistence "${PROJECT_DIR}/.git/hooks"
   fi
-  display_debug_message "Found SCOPE ${SCOPE}, ACTION ${ACTION}, HOOK_SCRIPT ${HOOK_SCRIPT}, PROJECT_DIR ${PROJECT_DIR}"
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg "Found SCOPE ${SCOPE}, ACTION ${ACTION}, HOOK_SCRIPT ${HOOK_SCRIPT}, PROJECT_DIR ${PROJECT_DIR}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 run_functions() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   create_configuration_file  "${SCOPE}" "${PROJECT_DIR}" # Create the configuration file if it doesn't exist
   if [ $? -eq 0 ]; then
     case "${ACTION}" in
@@ -151,13 +144,13 @@ run_functions() {
         show_version
         ;;
       *)
-        display_debug_message "This is not a valid action ${ACTION}"
+        echoDebugMsg "This is not a valid action ${ACTION}"
         ;;
     esac
   else
-    display_error_message 'Failed to create or check configuration file.'
+    echoErrorMsg 'Failed to create or check configuration file.'
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
 # Call function to handle the --debug parameter

@@ -7,7 +7,7 @@
 
 # Function to configure OpenAI API Key
 configure_openai_api_key() {
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+    echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
     # Determine the target directory based on the flag
     local target_dir="$1"
     validateRequiredDirectoryExistence "${target_dir}"
@@ -21,21 +21,21 @@ configure_openai_api_key() {
         if [ "${api_request}" -eq 200 ]; then
             break
         else
-            display_warning_message "${FUNCNAME[0]} Invalid API Key. You have $((max_retries - retry_count)) attempts left."
+            echoWarningMsg "${FUNCNAME[0]} Invalid API Key. You have $((max_retries - retry_count)) attempts left."
             echo "🔒 Please re-enter your OpenAI API key:"
             read -s opeAIAPIKey
             ((retry_count++))
         fi
     done
     if [ $retry_count -eq $max_retries ]; then
-        display_error_message "${FUNCNAME[0]} Max retries reached for API Key validation."
+        echoErrorMsg "${FUNCNAME[0]} Max retries reached for API Key validation."
     fi
     local passphrase=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
     echo -n "${opeAIAPIKey}" | openssl enc -aes-256-cbc -pbkdf2 -out "${target_dir}/.anyhooksopenai.enc" -pass pass:${passphrase}
     if [ $? -eq 0 ]; then
-        display_log_message "API keys encrypted successfully."
+        echoLogMsg "API keys encrypted successfully."
     else
-        display_error_message "Unable to encrypt API keys. Please verify your encryption parameters."
+        echoErrorMsg "Unable to encrypt API keys. Please verify your encryption parameters."
     fi
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+    echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }

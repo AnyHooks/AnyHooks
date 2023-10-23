@@ -49,18 +49,15 @@ configure_preferred_language() {
     fi
 }
 
-configure_preferred_language
-
-
 # Function to set language
 set_language() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   . "anyhookslang" $@
   if [ $? -eq 0 ]; then
-    display_log_message "Language set successfully."
+    echoLogMsg "Language set successfully."
   else
-    display_error_message "Unable to set the language. Please ensure the language is supported."
+    echoErrorMsg "Unable to set the language. Please ensure the language is supported."
     return 1010
   fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
