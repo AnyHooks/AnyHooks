@@ -3,9 +3,13 @@
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver, rc/anyhooksdisplaymsg
+# Dependencies: rc/anyhookscore, rc/anyhookslang, rc/anyhooksver, rc/anyhooksencrypt
 
 source "${PWD}/anyhookscore"
+source "${PWD}/anyhooksencrypt"
+source "${PWD}/anyhooksdeploy"
+#source "${PWD}/anyhookslang"
+source "${PWD}/anyhooksver"
 
 # Function to create the configuration file if it doesn't exist
 create_configuration_file() {
@@ -40,170 +44,6 @@ create_configuration_file() {
     fi
   else
     display_warning_message "Configuration file already exists."
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to check and encrypt API key file if it doesn't exist
-check_encrypt_key_file() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  local user_home_dir="$1"
-  local project_dir="$2"
-  local encrypted_file="${user_home_dir}/.anyhooksopenapi.enc"
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Confirming file [$encrypted_file]"
-  if [ ! -f "$encrypted_file" ]; then
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory informed [$project_dir] before encrypt_key function call"
-    encrypt_key
-    if [ $? -eq 0 ]; then
-      display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory informed [$project_dir] after encrypt_key function call"
-      display_log_message "Encrypted API key file successfully created at $encrypted_file."
-    else
-      display_error_message "Unable to create the encrypted API key file. Please verify your encryption settings."
-      return 1002
-    fi
-  else
-    display_warning_message "Encrypted API key file already exists."
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to deploy commit message
-deploy_commit_msg() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  local project_dir="$1"
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory informed [$project_dir]"
-  check_encrypt_key_file "$user_home_dir" "$project_dir"
-  if [ $? -eq 0 ]; then
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory informed [$project_dir] after check_encrypt_key_file"
-    local script_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Script directory retrieved [$script_dir]."
-    if [ ! -d "${script_dir}" ]; then
-      display_error_message "Invalid script directory: $script_dir"
-      return 1014
-    fi
-    if [ ! -f "${script_dir}/commit-msg" ]; then
-      display_error_message "File not found: ${script_dir}/commit-msg"
-      return 1014
-    fi
-    if [ ! -d "${project_dir}/.git/hooks/" ]; then
-      display_error_message "Project directory not found: ${project_dir}/.git/hooks/"
-      return 1014
-    fi
-    cp "${script_dir}/commit-msg" "${project_dir}/.git/hooks/"
-    if [ $? -eq 0 ]; then
-      display_log_message "Script hook commit-msg successfully deployed in $project_dir."
-    else
-      display_error_message "Unable to deploy the commit message hook. Please check the project directory informed [$project_dir]."
-      return 1003
-    fi
-  else
-    display_error_message "Failed to check or create encrypted API key file."
-    return 1004
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to undeploy commit message
-undeploy_commit_msg() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  local project_dir="$1"
-  check_encrypt_key_file
-  if [ $? -eq 0 ]; then
-    mv "$project_dir/.git/hooks/commit-msg" "$project_dir/.git/hooks/commit-msg.removed"
-    if [ $? -eq 0 ]; then
-      display_log_message "Script hook commit-msg successfully undeployed in $project_dir."
-    else
-      display_error_message "Unable to undeploy the commit message hook. Please check the project directory informed [$project_dir]."
-      return 1005
-    fi
-  else
-    display_error_message "Failed to check or create encrypted API key file."
-    return 1006
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to add hooks to the project
-add_hook() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  local hook_script="$1"
-  local user_home_dir="$2"
-  local project_dir="$3"
-  validateRequiredString "${hook_script}"
-  validateDirectoryExistence "${user_home_dir}"
-  validateDirectoryExistence "${project_dir}"
-  if [[ "$hook_script" =~ 'commit-msg' ]]; then
-    deploy_commit_msg "$user_home_dir" 
-    if [ $? -eq 0 ]; then
-      display_log_message 'Commit message deployed successfully.'
-    else
-      display_error_message 'Unable to deploy the commit message. Please review your hook settings.'
-      return 1007
-    fi
-  else
-    display_error_message "Invalid command. [$hook_script]"
-    return 1008
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to remove hooks from the project
-remove_hook() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  local hook_script="$1"
-  local user_home_dir="$2"
-  local project_dir="$3"
-  if [[ "$hook_script" =~ "commit-msg" ]]; then
-    undeploy_commit_msg "$2"
-    if [ $? -eq 0 ]; then
-      display_log_message "Commit message undeployed successfully."
-    else
-      display_error_message "Unable to undeploy the commit message. Please review your hook settings."
-      return 1008
-    fi
-  else
-    display_error_message "Invalid command. [$hook_script]"
-    return 1008
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to encrypt API keys
-encrypt_key() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory informed [$PROJECT_DIR] before . anyhooksencrypt config"
-  . "anyhooksencrypt" "$SCOPE"
-  if [ $? -eq 0 ]; then
-    display_log_message "API keys encrypted successfully."
-  else
-    display_error_message "Unable to encrypt API keys. Please verify your encryption parameters."
-    return 1009
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to set language
-set_language() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  . "anyhookslang" $@
-  if [ $? -eq 0 ]; then
-    display_log_message "Language set successfully."
-  else
-    display_error_message "Unable to set the language. Please ensure the language is supported."
-    return 1010
-  fi
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
-}
-
-# Function to show version
-show_version() {
-  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-  . "anyhooksver"
-  if [ $? -eq 0 ]; then
-    display_log_message "Version displayed successfully."
-  else
-    display_error_message "Unable to display the version. Please check your version settings."
-    return 1011
   fi
   display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
@@ -261,7 +101,7 @@ retrieve_parameters() {
           shift
           shift
           ;;
-        'r' | '--remove')
+        '-r' | '--remove')
           display_debug_message ${ANYHOOKS_DEBUG_MODE} 'remove Taken parameters then shift shift'
           ACTION="$1"
           HOOK_SCRIPT="$2"
@@ -270,6 +110,7 @@ retrieve_parameters() {
           ;;
         '-v' | '--version')
           display_debug_message ${ANYHOOKS_DEBUG_MODE} 'version Taken parameters then shift'
+          ACTION="$1"
           shift
           ;;
         * )
@@ -282,24 +123,16 @@ retrieve_parameters() {
 
 validate_parameters() {
   display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
-    # Validate scope
-    if [ "$SCOPE" != '--local' ] && [ "$SCOPE" != '--global' ] && [ "$SCOPE" != '-l' ] && [ "$SCOPE" != '-g' ]; then
-      display_error_message "Invalid scope: $SCOPE"
-      exit 1013
+  validateRequiredString "${SCOPE}"
+  if [[ "${ACTION}" =~ (-a|--add|-r|--remove) ]]; then
+    validateRequiredString "${HOOK_SCRIPT}"
+    if [ "${HOOK_SCRIPT}" != 'commit-msg' ]; then
+      display_error_message "Invalid hook script: ${HOOK_SCRIPT}"
     fi
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Scope: $SCOPE"
-    # Validate project path
-    if [ ! -d "${PROJECT_DIR}/.git/hooks" ]; then
-      display_error_message "Invalid project directory: $PROJECT_DIR"
-      exit 1014
-    fi
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Project directory: $PROJECT_DIR"
-    # Validate scope
-    if [[ "$ACTION" =~ (-a|--add|r|--remove)$ ]] && [ "$HOOK_SCRIPT" != 'commit-msg' ]; then
-      display_error_message "Invalid hook script: $HOOK_SCRIPT"
-      exit 1015
-    fi
-    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Hook script: $HOOK_SCRIPT"
+    validateRequiredDirectoryExistence "${PROJECT_DIR}"
+    validateRequiredDirectoryExistence "${PROJECT_DIR}/.git/hooks"
+  fi
+  display_debug_message "Found SCOPE ${SCOPE}, ACTION ${ACTION}, HOOK_SCRIPT ${HOOK_SCRIPT}, PROJECT_DIR ${PROJECT_DIR}"
   display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 
@@ -309,10 +142,10 @@ run_functions() {
   if [ $? -eq 0 ]; then
     case "${ACTION}" in
       '-a' | '--add')
-        add_hook "${HOOK_SCRIPT}" "${USER_HOME_DIR}" "${PROJECT_DIR}"
+        add_hook "${HOOK_SCRIPT}" "${PROJECT_DIR}"
         ;;
       '-r' | '--remove')
-        remove_hook "${HOOK_SCRIPT}" "${USER_HOME_DIR}" "${PROJECT_DIR}"
+        remove_hook "${HOOK_SCRIPT}" "${PROJECT_DIR}"
         ;;
       '-v' | '--version')
         show_version
@@ -323,7 +156,6 @@ run_functions() {
     esac
   else
     display_error_message 'Failed to create or check configuration file.'
-    return 1014
   fi
   display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }

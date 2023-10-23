@@ -1,0 +1,83 @@
+
+#!/bin/bash
+# Script: rc/anyhooksdeploy
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-23
+# Description: Manages hooks deployment settings for AnyHooks
+# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver, rc/anyhooksdisplaymsg
+
+# Function to deploy commit message
+deployHookScript() {
+    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+    local target_dir="$1"
+    local script_name="$2"
+    validateRequiredDirectoryExistence "${target_dir}/.git/hooks"
+    local script_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+    validateRequiredDirectoryExistence "${script_dir}"
+    validateRequiredFileExistence "${script_dir}/${script_name}"
+    cp -pv "${script_dir}/${script_name}" "${target_dir}/.git/hooks/"
+    if [ $? -eq 0 ]; then
+        display_log_message "Script hook commit-msg successfully deployed in ${target_dir}."
+    else
+        display_error_message "Unable to deploy the commit message hook. Please check the project directory informed [${target_dir}]."
+    fi
+    display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+}
+
+# Function to undeploy commit message
+undeploy_commit_msg() {
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  local target_dir="$1"
+  if [ $? -eq 0 ]; then
+    mv "$target_dir/.git/hooks/commit-msg" "$target_dir/.git/hooks/commit-msg.removed"
+    if [ $? -eq 0 ]; then
+      display_log_message "Script hook commit-msg successfully undeployed in $target_dir."
+    else
+      display_error_message "Unable to undeploy the commit message hook. Please check the project directory informed [$project_dir]."
+    fi
+  else
+    display_error_message "Failed to check or create encrypted API key file."
+  fi
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+}
+
+# Function to add hooks to the project
+add_hook() {
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  local hook_script="$1"
+  local target_dir="$2"
+  validateRequiredString "${hook_script}"
+  validateRequiredDirectoryExistence "${target_dir}"
+  if [[ "${hook_script}" =~ (commit-msg) ]]; then
+    deployHookScript "${target_dir}" "${hook_script}"
+    if [ $? -eq 0 ]; then
+      display_log_message 'Commit message deployed successfully.'
+    else
+      display_error_message 'Unable to deploy the commit message. Please review your parameters.'
+    fi
+  else
+    display_error_message "Invalid script name ${hook_script}"
+  fi
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+}
+
+# Function to remove hooks from the project
+remove_hook() {
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  local hook_script="$1"
+  local user_home_dir="$2"
+  local project_dir="$3"
+  if [[ "$hook_script" =~ "commit-msg" ]]; then
+    undeploy_commit_msg "$2"
+    if [ $? -eq 0 ]; then
+      display_log_message "Commit message undeployed successfully."
+    else
+      display_error_message "Unable to undeploy the commit message. Please review your hook settings."
+      return 1008
+    fi
+  else
+    display_error_message "Invalid command. [$hook_script]"
+    return 1008
+  fi
+  display_debug_message ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+}

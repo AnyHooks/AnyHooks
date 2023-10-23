@@ -9,6 +9,3 @@ show_version() {
   LATEST_COMMIT=$(git rev-parse HEAD)
   echo "AnyHooks Version: $LATEST_COMMIT"
 }
-
-# Call the function
-show_version
