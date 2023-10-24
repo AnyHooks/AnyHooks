@@ -64,7 +64,7 @@ fi
 
 # Source the variable
 CONFIG_FILE="$1"
-if [ -f $CONFIG_FILE ]; then
+if [ ! -z "$CONFIG_FILE" ] && [ -f $CONFIG_FILE ]; then
     echo "CONFIG_FILE $CONFIG_FILE"
     source $CONFIG_FILE
 else
