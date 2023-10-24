@@ -63,18 +63,12 @@ if ! command -v openssl &> /dev/null; then
 fi
 
 # Source the variable
-CONFIG_FILE="$1"
-if [ ! -z "$CONFIG_FILE" ] && [ -f $CONFIG_FILE ]; then
-    echo "CONFIG_FILE $CONFIG_FILE"
-    source $CONFIG_FILE
-else
-    CONFIG_FILE="./.anyhooksrc"
-    if [ ! -f $CONFIG_FILE ]; then
-        echo "Error: Configuration file $CONFIG_FILE not found."
-        echo "Reason: The script requires this file for sourcing variables."
-        echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
-        exit 6
-    fi
+CONFIG_FILE="./.anyhooksrc"
+if [ ! -f $CONFIG_FILE ]; then
+    echo "Error: Configuration file $CONFIG_FILE not found."
+    echo "Reason: The script requires this file for sourcing variables."
+    echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
+    exit 6
 fi
 
 # Check for required files and variables
