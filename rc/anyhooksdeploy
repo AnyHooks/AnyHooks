@@ -20,6 +20,7 @@ deployHookScript() {
     else
         echoErrorMsg "Unable to deploy the commit message hook. Please check the project directory informed [${target_dir}]."
     fi
+    return 0
     echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }
 

@@ -1,0 +1,42 @@
+#!/bin/bash
+# Script: rc/anyhooksrc
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-15
+# Description: Manages hooks, encryption, and language settings for AnyHooks
+# Dependencies: rc/anyhookscore, rc/anyhookslang, rc/anyhooksver, rc/anyhooksencrypt
+
+# Function to create the configuration file if it doesn't exist
+create_anyhooksrc() {
+  local scope="$1"
+  local project_dir="$2"
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
+  # the default if not informed
+  local anyhooksrc_file=""
+  case "$scope" in
+    "-g" | "--global") anyhooksrc_file="$(getUserHomeDir)/.anyhooksrc" ;;
+    "-l" | "--local") anyhooksrc_file="${project_dir}/.anyhooksrc" ;;
+    *) 
+    echoErrorMsg "Invalid scope $1"
+  esac
+  if [ ! -f "${anyhooksrc_file}" ]; then
+    echo '#!/bin/bash' > "${anyhooksrc_file}" && \
+    echo '# Resource: rc/.anyhooksrc' >> "${anyhooksrc_file}" && \
+    echo '# ' >> "${anyhooksrc_file}" && \
+    echo '# The default language is English or you can define any other ' >> "${anyhooksrc_file}" && \
+    echo '#   language name in English, for example Portuguese, ' >> "${anyhooksrc_file}" && \
+    echo '#   Spanish, French, Dutch, etc. It will affect the response of the OpenAPI.' >> "${anyhooksrc_file}" && \
+    echo '# ' >> "${anyhooksrc_file}" && \
+    echo 'PREF_LANGUAGE=English' >> "${anyhooksrc_file}" && \
+    echo 'OPENAI_SYSTEM_CONTENT="You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres, in the prefered language."' >> "${anyhooksrc_file}" && \
+    echo 'OPENAI_USER_CONTENT="Based on the following git diff output, identify and describe the changes to define the commit message."' >> "${anyhooksrc_file}"
+    if [ $? -eq 0 ]; then
+      echoLogMsg "Configuration file created successfully."
+    else
+      echoErrorMsg "Unable to create the configuration file. Please ensure you have write permissions. Path ${anyhooksrc_file}"
+    fi
+  else
+    echoWarningMsg "Configuration file already exists."
+  fi
+  return 0
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
+}
