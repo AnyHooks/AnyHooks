@@ -68,10 +68,13 @@ if [ -f $CONFIG_FILE ]; then
     echo "CONFIG_FILE $CONFIG_FILE"
     source $CONFIG_FILE
 else
-    echo "Error: Configuration file $CONFIG_FILE not found."
-    echo "Reason: The script requires this file for sourcing variables."
-    echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
-    exit 6
+    CONFIG_FILE="./.anyhooksrc"
+    if [ ! -f $CONFIG_FILE ]; then
+        echo "Error: Configuration file $CONFIG_FILE not found."
+        echo "Reason: The script requires this file for sourcing variables."
+        echo "User Task: Make sure $CONFIG_FILE exists and is accessible."
+        exit 6
+    fi
 fi
 
 # Check for required files and variables
@@ -127,5 +130,6 @@ fi
 # Update the commit message
 echo $DESCRIPTON_4096_SUGGESTION > "commit-message.txt"
 git commit -F "commit-message.txt"
+rm -f "commit-message.txt"
 
 exit 0
