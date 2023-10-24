@@ -1,5 +1,5 @@
-#!/bin/bash
-# Script: rc/anyhookscore
+#!/usr/bin/env bash
+# Script: anyhookscore
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-22
 # Description: Manages hooks, encryption, and language settings for AnyHooks

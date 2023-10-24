@@ -1,9 +1,9 @@
-#!/bin/bash
-# Script: rc/anyhooksencrypt
+#!/usr/bin/env bash
+# Script: anyhooksencrypt
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Generates .anyhooksopenai.enc file for storing OpenAI API Key
-# Dependencies: curl, openssl, rc/anyhooksdisplaymsg
+# Dependencies: curl, openssl, anyhooksdisplaymsg
 
 # Function to configure OpenAI API Key
 configure_openai_api_key() {
@@ -31,6 +31,7 @@ configure_openai_api_key() {
         echoErrorMsg "${FUNCNAME[0]} Max retries reached for API Key validation."
     fi
     local passphrase=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
+    echo "PASSPHRASE=${passphrase}" >> "${target_dir}/.anyhooksrc"
     echo -n "${opeAIAPIKey}" | openssl enc -aes-256-cbc -pbkdf2 -out "${target_dir}/.anyhooksopenai.enc" -pass pass:${passphrase}
     if [ $? -eq 0 ]; then
         echoLogMsg "API keys encrypted successfully."

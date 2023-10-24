@@ -1,9 +1,9 @@
-#!/bin/bash
-# Script: rc/anyhooksdeploy
+#!/usr/bin/env bash
+# Script: anyhooksdeploy
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-23
 # Description: Manages hooks deployment settings for AnyHooks
-# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver, rc/anyhooksdisplaymsg
+# Dependencies: openaikey, anyhookslang, anyhooksver, anyhooksdisplaymsg
 
 # Function to deploy commit message
 deployHookScript() {
@@ -11,7 +11,7 @@ deployHookScript() {
     local target_dir="$1"
     local script_name="$2"
     validateRequiredDirectoryExistence "${target_dir}/.git/hooks"
-    local script_dir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+    local script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )"
     validateRequiredDirectoryExistence "${script_dir}"
     validateRequiredFileExistence "${script_dir}/${script_name}"
     cp -pv "${script_dir}/${script_name}" "${target_dir}/.git/hooks/"

@@ -1,15 +1,15 @@
-#!/bin/bash
-# Script: rc/anyhooksrc
+#!/usr/bin/env bash
+# Script: anyhooksrc
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/anyhookscore, rc/anyhookslang, rc/anyhooksver, rc/anyhooksencrypt
+# Dependencies: anyhookscore, anyhookslang, anyhooksver, anyhooksencrypt
 
 # Function to create the configuration file if it doesn't exist
 create_anyhooksrc() {
+  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   local scope="$1"
   local project_dir="$2"
-  echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Entering ${FUNCNAME[0]} ${@}"
   # the default if not informed
   local anyhooksrc_file=""
   case "$scope" in
@@ -18,9 +18,9 @@ create_anyhooksrc() {
     *) 
     echoErrorMsg "Invalid scope $1"
   esac
-  if [ ! -f "${anyhooksrc_file}" ]; then
+  #if [ ! -f "${anyhooksrc_file}" ]; then
     echo '#!/bin/bash' > "${anyhooksrc_file}" && \
-    echo '# Resource: rc/.anyhooksrc' >> "${anyhooksrc_file}" && \
+    echo '# Resource: .anyhooksrc' >> "${anyhooksrc_file}" && \
     echo '# ' >> "${anyhooksrc_file}" && \
     echo '# The default language is English or you can define any other ' >> "${anyhooksrc_file}" && \
     echo '#   language name in English, for example Portuguese, ' >> "${anyhooksrc_file}" && \
@@ -34,9 +34,9 @@ create_anyhooksrc() {
     else
       echoErrorMsg "Unable to create the configuration file. Please ensure you have write permissions. Path ${anyhooksrc_file}"
     fi
-  else
-    echoWarningMsg "Configuration file already exists."
-  fi
+  #else
+  #  echoWarningMsg "Configuration file already exists."
+  #fi
   return 0
   echoDebugMsg ${ANYHOOKS_DEBUG_MODE} "Exiting ${FUNCNAME[0]} ${@}"
 }

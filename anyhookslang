@@ -1,5 +1,5 @@
-#!/bin/bash
-# Script: rc/anyhookslang
+#!/usr/bin/env bash
+# Script: anyhookslang
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Configures the preferred language for OpenAI API interactions

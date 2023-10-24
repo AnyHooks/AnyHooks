@@ -36,11 +36,11 @@ This guide aims to provide a comprehensive walkthrough for developing a Homebrew
       depends_on "openssl"
 
       def install
-        bin.install "rc/anyhooks"
+        bin.install "anyhooks"
       end
 
       test do
-        system "#{bin}/rc/anyhooks", "--version"
+        system "#{bin}/anyhooks", "--version"
       end
     end
     ```

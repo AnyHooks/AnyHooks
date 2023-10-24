@@ -393,11 +393,11 @@ A header is mandatory for every script as it provides essential metadata about t
 
 ```bash
 #!/bin/bash
-# Script: rc/anyhooks
+# Script: anyhooks
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/openaikey, rc/anyhookslang, rc/anyhooksver
+# Dependencies: openaikey, anyhookslang, anyhooksver
 # Limitations:  Linux, macOS
 ```
 

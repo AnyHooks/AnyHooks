@@ -1,9 +1,9 @@
-#!/bin/bash
-# Script: rc/anyhooks
+#!/usr/bin/env bash
+# Script: anyhooks
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Manages hooks, encryption, and language settings for AnyHooks
-# Dependencies: rc/anyhookscore, rc/anyhookslang, rc/anyhooksver, rc/anyhooksencrypt
+# Dependencies: anyhookscore, anyhookslang, anyhooksver, anyhooksencrypt
 
 source "${PWD}/anyhookscore"
 source "${PWD}/anyhooksencrypt"
@@ -15,7 +15,7 @@ source "${PWD}/anyhooksver"
 ANYHOOKS_DEBUG_MODE=false
 
 # Defines the scope for the current task
-SCOPE='--global'
+SCOPE='--local'
 
 PROJECT_DIR=""
 

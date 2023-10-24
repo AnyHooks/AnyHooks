@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Script: anyhooksencrypt
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-15
+# Description: Generates .anyhooksopenai.enc file for storing OpenAI API Key
+# Dependencies: curl, openssl, anyhooksdisplaymsg
+
+# Specify the path to your certificate and the name of the keychain
+CERTIFICATE_PATH="${PWD}/AnyHooks.p12"
+KEYCHAIN_NAME="login.keychain"
+
+openssl req -x509 -newkey rsa:2048 -keyout AnyHooks-key.pem -out AnyHooks-cer.pem -days 365
+psswd="Ricardo Malnati Rosa Lima"
+openssl rsa -in AnyHooks-key.pem -out AnyHooks-no-pass.pem
+psswd="Ricardo Malnati Rosa Lima"
+openssl pkcs12 -export -inkey AnyHooks-no-pass.pem -in AnyHooks-cer.pem -out AnyHooks.p12
+psswd="Ricardo Malnati Rosa Lima"
+security import AnyHooks.p12 -k ~/Library/Keychains/login.keychain
+
+openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout AnyHooks-key.pem -out AnyHooks-cer.pem -subj "/C=BR/ST=Distrito Federal/L=Brasilia/O=Ricardo Malnati/OU=DevOps/CN=Ricardo Malnati/emailAddress=ricardomalnati@gmail.com" && security import AnyHooks-key.pem -k ~/Library/Keychains/login.keychain && security add-trusted-cert -d -r trustRoot -k ~/Library/Keychains/login.keychain AnyHooks-cer.pem
+security find-identity -v -p codesigning
+codesign --sign "Ricardo Malnati" --options "runtime" .git/hooks/commit-msg
+
+security create-keychain -p "Defacqz" AnyHooks.keychain && \
+security default-keychain -s AnyHooks.keychain && \
+security create-keypair -p "your_key_password" -a rsa -s 2048 -k AnyHooks.keychain AnyHooks && \
+security create-csr -p "your_key_password" -k AnyHooks.keychain -d "Ricardo Malnati" -e ricardomalnati@gmail.com -r 2048 -o AnyHooks.csr && \
+security create-self-signed-cert -k AnyHooks.keychain -d "Ricardo Malnati" -e ricardomalnati@gmail.com -r 2048 -s "CN=Ricardo Malnati,O=Ricardo Malnati,C=BR" -o AnyHooks.pem && \
+security import AnyHooks.pem -k AnyHooks.keychain && \
+security add-trusted-cert -d -r trustRoot -p codeSign -k AnyHooks.keychain AnyHooks.pem && \
+codesign --sign "Ricardo Malnati" --options "runtime" .git/hooks/commit-msg
+
+
+# Import the certificate
+security import "${CERTIFICATE_PATH}" -k "${HOME}/Library/Keychains/${KEYCHAIN_NAME}" -T /usr/bin/codesign
+
+security authorize -uli ${CERTIFICATE_PATH}
+security verify-cert -t -c ${CERTIFICATE_PATH}
+
+# Optional: Verify the import
+security find-identity -v -p codesigning
+
+codesign --sign "Malnati" --options "runtime" .git/hooks/commit-msg
+codesign --verify --verbose .git/hooks/commit-msg
+codesign --display --verbose=4 .git/hooks/commit-msg
+codesign --display -r- .git/hooks/commit-msg
