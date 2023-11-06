@@ -125,5 +125,6 @@ fi
 echo $DESCRIPTON_4096_SUGGESTION > "commit-message.txt"
 git commit -F "commit-message.txt"
 rm -f "commit-message.txt"
+git fetch && git pull
 
 exit 0
