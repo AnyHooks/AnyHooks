@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script: hooks/commit-msg
+# Script: anyhookscommitmsg
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-15
 # Description: Analyzes the commit content and suggests a semantic versioning message. Supports user 
